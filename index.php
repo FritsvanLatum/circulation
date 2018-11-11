@@ -15,7 +15,7 @@ function get_auth_header($config) {
 			$options['user'] = $user;
 		}
 		$wskey = new WSKey($config['wskey'], $config['secret'], $options);
-		$authorizationHeader = $wskey->getHMACSignature($config['method'], $config['url'], $options);
+		$authorizationHeader = $wskey->getHMACSignature($config['auth_method'], $config['auth_url'], $options);
 		//check??
 		array_push($config['auth_headers'],'Authorization: '.$authorizationHeader);
 	}

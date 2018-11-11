@@ -10,6 +10,11 @@ $config = [
 
     'ppid_namespace' =>   "urn:oclc:platform:57439", 
     'ppid' =>  "3ad48a9e-0ee7-4eec-b303-189a8f4af886",
+
+	"auth_url" => "http://www.worldcat.org/wskey/v2/hmac/v1",
+	"auth_headers" => ["Accept: application/json"],
+    'auth_method' => 'GET',
+
     
     'url' =>   "https://57439.share.worldcat.org/circ/pulllist/262638",
     'method' => 'GET',
