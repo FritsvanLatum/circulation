@@ -7,6 +7,7 @@ require './OCLC/User.php';
 //TODO functions in een apart bestand
 
 function get_auth_header($config) {
+  $authorizationHeader = '';
 	if (array_key_exists('wskey',$config) && array_key_exists('secret',$config)) {
 		$options = array();
 		if (array_key_exists('institution',$config) && array_key_exists('ppid',$config) && array_key_exists('ppid_namespace',$config)) {
@@ -17,12 +18,15 @@ function get_auth_header($config) {
 		$wskey = new WSKey($config['wskey'], $config['secret'], $options);
 		$authorizationHeader = $wskey->getHMACSignature($config['auth_method'], $config['auth_url'], $options);
 		//check??
-		array_push($config['auth_headers'],'Authorization: '.$authorizationHeader);
+		$authorizationHeader = 'Authorization: '.$authorizationHeader;
 	}
-	return $config;
+	return $authorizationHeader;
 }
 
 function API_request($config) {
+  $authorizationHeader = get_auth_header($config);
+	array_push($config['auth_headers'],$authorizationHeader);
+
 	$curl = curl_init();
 	
 	curl_setopt($curl, CURLOPT_URL, $config['url']);
@@ -42,7 +46,6 @@ function API_request($config) {
 }
 
 //add authorization header to the headers in config
-$config = get_auth_header($config);
 $json_result = API_request($config);
 $result = json_decode ($json_result, TRUE);
 
