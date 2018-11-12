@@ -1,0 +1,32 @@
+pulllist: object
+keys: 
+  "id": "urn:oclc:circulation\/pulllist\/57439\/262638",
+  "title": string
+  "updated": date_time
+
+  "entries": array of objects
+  keys of $pulllist["entries"][i]: 
+    "title": string
+    "updated": date_time 
+    "content": object
+    keys:
+    
+algoritme
+
+
+get pulllist
+
+if print only new entries {
+  get previous pullist
+  foreach entry {
+    if not in previous list {print entry}
+  }
+}
+else {
+  foreach entry {
+    print entry
+  }
+}
+
+store pullist
+

@@ -56,6 +56,10 @@ $result = json_decode ($json_result, TRUE);
 	   
 	</head>
 	<body>
+		<p>Printers:
+			<pre><?php echo shell_exec('dir');?></pre>
+		</p>
+	  
 		<p>Config:
 			<pre><?php echo json_encode($config, JSON_PRETTY_PRINT);?></pre>
 		</p>
