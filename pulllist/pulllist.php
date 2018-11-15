@@ -2,12 +2,18 @@
 
 require_once './OCLC/Auth/WSKey.php';
 require_once './OCLC/User.php';
+require_once './vendor/autoload.php';
+
+
+
 /**
 * A class that represents a pullist
 */
-
 class Pulllist {
+  
+  private $errors = [];
 
+  //API
   private $wskey = null;
   private $secret = null;
   private $ppid = null;
@@ -18,10 +24,20 @@ class Pulllist {
   private $auth_method = 'GET';
   private $auth_headers = ['Accept: application/json'];
   private $pulllist_url = null;
+  private $pulllist_filename = 'pulllist.json';
+  private $previous_pulllist_filename = 'prev_pulllist.json';
+
+  //pulllist
   private $list = null;
   private $no_of_items = null;
   
+  //twig
+  private $twig = null;
+  private $template = 'ticket.html';
+  private $tickets_dir = 'tickets/tobeprinted';  
+  
   public function __construct($wskey,$secret,$ppid,$institution,$branch) {
+    echo __DIR__;
     $this->wskey = $wskey;
     $this->secret = $secret;
     $this->ppid = $ppid;
@@ -29,6 +45,11 @@ class Pulllist {
     $this->ppid_namespace = 'urn:oclc:platform:'.$this->institution;
     $this->defaultBranch = $branch;
     $this->pulllist_url = 'https://'.$this->institution.'.share.worldcat.org/circ/pulllist/'.$this->defaultBranch;
+    
+    $loader = new Twig_Loader_Filesystem(__DIR__);
+    $this->twig = new Twig_Environment($loader, array(
+    //    'cache' => './compilation_cache',
+    ));
   }
 
   private function get_pulllist_auth_header($url,$method) {
@@ -77,11 +98,17 @@ class Pulllist {
 
     if ($error_number) {
       $result = '{"Curl_errno": "'.$error_number.'", "Curl_error": "'.curl_error($curl).'"}';
-      $this->pulllist = json_decode($result,TRUE);
+      $this->errors['curl'] = json_decode($result,TRUE);
       return false;
     }
     else {
       $this->list = json_decode($result,TRUE);
+ 
+      if (file_exists($this->pulllist_filename)) {
+       rename($this->pulllist_filename,$this->previous_pulllist_filename); 
+      }
+      file_put_contents($this->pulllist_filename,json_encode($this->list, JSON_PRETTY_PRINT));
+       
       if (array_key_exists('entries',$this->list)) {
         $this->no_of_items = count($this->list['entries']);
       }
@@ -104,4 +131,15 @@ class Pulllist {
     }
     return $result;
   }
+  
+  public function items2html() {
+    if ($this->list && array_key_exists('entries',$this->list)) {
+      foreach ($this->list['entries'] as $entry) {
+        $html = $this->twig->render($this->template, $entry);
+        $filename = 'test.html';
+        file_put_contents(__DIR__.'/'.$this->tickets_dir.'/'.$filename,$html); 
+      }
+    }
+  }
 }
+

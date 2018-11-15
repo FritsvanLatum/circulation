@@ -1,6 +1,6 @@
 
 Sander: Wat kun je met de item resource uit de API? (wat is daar de item identifier)
-Sander: barcode patron in pulllist?
+
 
 
 1: ieder half uur
@@ -15,17 +15,17 @@ Als ticket in vorige pulllist dan overslaan (barcode en patron en ? gelijk)
 Save tickets HTML in ./tobeprinted
 mbv template file met Twig (vooralsnog)
 
-barcode staat niet in pulllist, wel: ppid
-barcode zou daarmee kunnen worden opgehaald via de idm api
+barcode lener staat niet in pulllist, Niet gebruiken 
+( wel: ppid, barcode zou daarmee kunnen worden opgehaald via de idm api
 
 2:
-HTML pagina met lijst en tickets uit ./tobeprinted en uit ./printer en printknop (3)
+HTML pagina met lijst en tickets uit ./tobeprinted en uit ./printed en printknop (3)
 
 3. ieder half uur maar na 1.
 Print script
 
 Als files in ./tobeprinted
-Html2pdf (met mPDF?)
+Html2pdf (met mPDF)
 Print
 Als geen errors
 Verplaats naar ./printed
