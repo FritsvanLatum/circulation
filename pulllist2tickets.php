@@ -1,8 +1,8 @@
 <?php
 
-require_once 'key.php';
-require_once 'pulllist.php';
-
+require_once './pulllist/key.php';
+require_once './pulllist/pulllist.php';
+echo __DIR__;
 
 $pulllist = new Pulllist($config['wskey'],$config['secret'],$config['ppid']); 
 
