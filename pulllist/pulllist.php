@@ -4,8 +4,6 @@ require_once './OCLC/Auth/WSKey.php';
 require_once './OCLC/User.php';
 require_once './vendor/autoload.php';
 
-
-
 /**
 * A class that represents a pullist
 */
@@ -13,45 +11,88 @@ class Pulllist {
   
   private $errors = [];
 
-  //API
+  //must be provided as parameters in $pulllist = new Pulllist($wskey,$secret,$ppid), see __construct
   private $wskey = null;
   private $secret = null;
   private $ppid = null;
-  private $institution = null;
-  private $defaultBranch = null;
-  private $ppid_namespace = null;
+
+  private $institution = "57439";
+  private $defaultBranch = "262638";
+
+  //$ppid_namespace is extended in __construct
+  private $ppid_namespace = "urn:oclc:platform:";
+
   private $auth_url = 'http://www.worldcat.org/wskey/v2/hmac/v1';
   private $auth_method = 'GET';
   private $auth_headers = ['Accept: application/json'];
-  private $pulllist_url = null;
-  private $pulllist_filename = 'pulllist.json';
-  private $previous_pulllist_filename = 'prev_pulllist.json';
 
+  //$pulllist_url is extended in __construct
+  private $pulllist_url = "share.worldcat.org/circ/pulllist";
+  
   //pulllist
   private $list = null;
   private $no_of_items = null;
+  private $tickets_dir = 'tickets';
+  private $tobeprinted_dir = 'tobeprinted';  
+  private $pulllist_filename = 'actual_pulllist.json';
+  private $previous_pulllist_filename = 'previous_pulllist.json';
+
   
   //twig
   private $twig = null;
-  private $template = 'ticket.html';
-  private $tickets_dir = 'tickets/tobeprinted';  
+  private $template = 'ticket_template.html';
   
-  public function __construct($wskey,$secret,$ppid,$institution,$branch) {
-    echo __DIR__;
+  public function __construct($wskey,$secret,$ppid) {
     $this->wskey = $wskey;
     $this->secret = $secret;
     $this->ppid = $ppid;
-    $this->institution = $institution;
-    $this->ppid_namespace = 'urn:oclc:platform:'.$this->institution;
-    $this->defaultBranch = $branch;
-    $this->pulllist_url = 'https://'.$this->institution.'.share.worldcat.org/circ/pulllist/'.$this->defaultBranch;
+    $this->ppid_namespace = $this->ppid_namespace.$this->institution;
+
+    $this->pulllist_url = 'https://'.$this->institution.'.'.$this->pulllist_url.'/'.$this->defaultBranch;
+    
+    $this->tickets_dir = __DIR__.'/'.$this->tickets_dir;
+    $this->pulllist_filename = $this->tickets_dir.'/'.$this->pulllist_filename;
+    $this->previous_pulllist_filename = $this->tickets_dir.'/'.$this->previous_pulllist_filename;
+    $this->tobeprinted_dir = $this->tickets_dir.'/'.$this->tobeprinted_dir;
+
     
     $loader = new Twig_Loader_Filesystem(__DIR__);
     $this->twig = new Twig_Environment($loader, array(
-    //    'cache' => './compilation_cache',
+      //specify a cache directory only in a production setting
+      //'cache' => './compilation_cache',
     ));
   }
 
+  public function __toString(){
+    $json = [
+      'wskey' => $this->wskey,
+      'secret' => $this->secret,
+      'ppid' => $this->ppid,
+
+      'institution' => $this->institution,
+      'defaultBranch' => $this->defaultBranch,
+
+      'ppid_namespace' => $this->ppid_namespace,
+
+      'auth_url' => $this->auth_url,
+      'auth_method' => $this->auth_method,
+      'auth_headers' => $this->auth_headers,
+
+      'pulllist_url' => $this->pulllist_url,
+  
+      'list' => $this->list,  
+      'no_of_items' => $this->no_of_items,
+      'pulllist_filename' => $this->pulllist_filename,
+      'previous_pulllist_filename' => $this->previous_pulllist_filename,
+
+      'twig' => ($this->twig === null) ? $this->twig : 'is initiated',
+      'template' => $this->template,
+      'tickets_dir' => $this->tickets_dir,  
+      'tobeprinted_dir' => $this->tobeprinted_dir,  
+    ];
+    return json_encode($json, JSON_PRETTY_PRINT);
+  }
+  
   private function get_pulllist_auth_header($url,$method) {
     //get an authorization header
     //  with wskey, secret and if necessary user data from $config
@@ -135,9 +176,23 @@ class Pulllist {
   public function items2html() {
     if ($this->list && array_key_exists('entries',$this->list)) {
       foreach ($this->list['entries'] as $entry) {
-        $html = $this->twig->render($this->template, $entry);
-        $filename = 'test.html';
-        file_put_contents(__DIR__.'/'.$this->tickets_dir.'/'.$filename,$html); 
+        
+        try {
+          $html = $this->twig->render($this->template, $entry);
+        }
+        catch (Exception $e) {
+          echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+        
+        $filename = $this->tobeprinted_dir.'/'.$entry['content']['requestId'].'.html';
+        if (file_exists($filename)) {
+          //for testing, in production: do nothing if file exists
+          echo "File exists: ".$filename;
+          file_put_contents($filename,$html);
+        }
+        else {
+          file_put_contents($filename,$html); 
+        }
       }
     }
   }

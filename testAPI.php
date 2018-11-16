@@ -1,10 +1,11 @@
 <?php
 
-require_once './config/config.php';
+require_once './config/key.php';
 require_once './pulllist/pulllist.php';
 
 
-$pulllist = new Pulllist($config['wskey'],$config['secret'],$config['ppid'],$config['institution'],$config['defaultBranch']); 
+$pulllist = new Pulllist($config['wskey'],$config['secret'],$config['ppid']); 
+
 if ($pulllist->get_pulllist()) {
   $result = $pulllist->get_list();
   $pulllist->items2html();
@@ -18,13 +19,10 @@ if ($pulllist->get_pulllist()) {
 	</head>
 	<body>
 	  
-		<p>Config:
-		  <pre><?php echo __DIR__;?></pre>
-			<pre><?php echo json_encode($config, JSON_PRETTY_PRINT);?></pre>
+		<p>Pulllist object:
+			<pre><?php echo $pulllist;?></pre>
 		</p>
-		<p>Result:
-			<pre><?php echo json_encode($result, JSON_PRETTY_PRINT);?></pre>
-		</p>
+
 	</body>
 	
 </html>
