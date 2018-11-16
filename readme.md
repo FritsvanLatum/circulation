@@ -17,7 +17,13 @@ $config['ppid'] = {ppid of your institution};
 
 ## Usage
 
-Schedule pulllist2tickets.php in order to get tickets from pullists. E.g. each half hour.
+Use:
+```
+php pulllist2tickets.php
+```
+on the commandline in order to get tickets from pullists.
+
+Schedule *pulllist2tickets.php* in order to get tickets from pullists. E.g. each half hour.
 
 ## Uses
 
