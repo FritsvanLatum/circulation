@@ -4,6 +4,7 @@ require_once './OCLC/User.php';
 require_once __DIR__.'/../patron/patron.php';
 require_once __DIR__.'/../vendor/autoload.php';
 
+
 /**
 * A class that represents a pullist
 */
@@ -176,6 +177,7 @@ class Pulllist {
       return true;
     }
   }
+
   public function get_list() {
     return $this->list;
   }
