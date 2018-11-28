@@ -176,6 +176,9 @@ class Pulllist {
       return true;
     }
   }
+  public function get_list() {
+    return $this->list;
+  }
 
   public function get_item($i) {
     $result = null;
@@ -194,6 +197,10 @@ class Pulllist {
         $tel++;
         $patronIdentifier = $entry['content']['patronIdentifier']['ppid'];
         echo "<hr/><br>patron identifier from list [$tel]: ".$patronIdentifier."<br>";
+
+//$patronIdentifier="9d1edb1d-d051-4fde-8431-169bfab07666";//ppid van Aad, hiermee wordt de correcte lenerbarcode opgehaald
+
+
         $this->patron->read_patron($patronIdentifier);
         $barcode = $this->patron->get_barcode();
         echo "<br>patron barcode[$tel]: ".$barcode."<br>";

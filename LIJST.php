@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?PHP
 require_once './vendor/autoload.php';
-//$mpdf = new \Mpdf\Mpdf();
+$mpdf = new \Mpdf\Mpdf();
 
 ?>
 

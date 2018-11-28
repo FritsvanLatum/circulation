@@ -3,7 +3,6 @@ require_once './pulllist/key.php';
 require_once './pulllist/pulllist.php';
 require_once './patron/key_idm.php';
 
-
 $pulllist = new Pulllist($config['wskey'],$config['secret'],$config['ppid'],$config_idm['wskey'],$config_idm['secret'],$config_idm['ppid']);
 
 ?>
