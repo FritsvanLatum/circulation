@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="http://localhost/loopbonnen/pulllist/tickets/ticket.css">
+  </head>
+  <body>
+<p>&nbsp;</p>
+    <h1>PLEASE DO NOT REMOVE THIS FORM FROM THE BOOK !</h1>
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Date</td>
+          <td>{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
+        </tr>
+        <tr>
+          <td>Call number</td>
+          <td>{{ content.callNumber.description }}</td>
+        </tr>
+        <tr>
+          <td>Year/Vol./No.</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>Title</td>
+          <td>{{ title }}</td>
+        </tr>
+        <tr>
+          <td>Author</td>
+          <td>{{ content.author }}</td>
+        </tr>
+        <tr>
+          <td>Barcode</td>
+          <td><barcode code="{{ content.pieceDesignation }}" type="C39" height="0.99" text="1" /></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td><td></td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td><div class="rechts">{{ content.patronName }}</div></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td><td></td>
+        </tr>
+        <tr>
+          <td>Date of request</td>
+          <td>{{ content.requestDate|split('T')|first }} {{ content.requestDate|split('T')|last|split('.')|first }}</td>
+        </tr>
+      </tbody>
+    </table>
+</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+
+------------------------------------------------------------------------------------------------------------------------
+
+<p>&nbsp;</p>
+</p>
+    <h1>STEEKKAART</h1>
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Date</td>
+          <td>{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
+        </tr>
+        <tr>
+          <td>Call number</td>
+          <td>{{ content.callNumber.description }}</td>
+        </tr>
+        <tr>
+          <td>Year/Vol./No.</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>Title</td>
+          <td>{{ title }}</td>
+        </tr>
+        <tr>
+          <td>Author</td>
+          <td>{{ content.author }}</td>
+        </tr>
+        <tr>
+          <td>Barcode</td>
+          <td>{{ content.pieceDesignation }}</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td><td></td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td>{{ content.patronName }}</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td><td></td>
+        </tr>
+        <tr>
+          <td>Date of request</td>
+          <td>{{ content.requestDate|split('T')|first }} {{ content.requestDate|split('T')|last|split('.')|first }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

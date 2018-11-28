@@ -1,5 +1,12 @@
 body {
-    background-color: lightblue;
+    background-color: white;
 }
 
+h1{
+	font-size: 150%;
+}
 
+div.rechts{
+	color:red;
+	text-align: right;
+}

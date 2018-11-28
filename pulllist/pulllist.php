@@ -1,8 +1,8 @@
 <?php
-
 require_once './OCLC/Auth/WSKey.php';
 require_once './OCLC/User.php';
-require_once './vendor/autoload.php';
+require_once __DIR__.'/../patron/patron.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 /**
 * A class that represents a pullist
@@ -30,8 +30,8 @@ class Pulllist {
   private $pulllist_url = "share.worldcat.org/circ/pulllist";
 
   //pulllist
-  private $list = null;
-  private $no_of_items = null;
+  public $list = null;
+  public $no_of_items = null;
 
   private $pullist_dir = null;
   private $tickets_dir = 'tickets';
@@ -39,12 +39,13 @@ class Pulllist {
   private $pulllist_filename = 'actual_pulllist.json';
   private $previous_pulllist_filename = 'previous_pulllist.json';
 
+  private $patron = null;
 
   //twig
   private $twig = null;
   private $template = 'ticket_template.html';
 
-  public function __construct($wskey,$secret,$ppid) {
+  public function __construct($wskey,$secret,$ppid,$idm_wskey,$idm_secret,$idm_ppid) {
     //oclc business
     $this->wskey = $wskey;
     $this->secret = $secret;
@@ -60,6 +61,10 @@ class Pulllist {
     $this->previous_pulllist_filename = $this->tickets_dir.'/'.$this->previous_pulllist_filename;
     $this->tobeprinted_dir = $this->tickets_dir.'/'.$this->tobeprinted_dir;
 
+    //$temp = new Patron($idm_wskey,$idm_secret,$idm_ppid);
+    //echo $temp;
+    $this->patron = new Patron($idm_wskey,$idm_secret,$idm_ppid);
+    
     //Twig
     $loader = new Twig_Loader_Filesystem(__DIR__);
     $this->twig = new Twig_Environment($loader, array(
@@ -71,9 +76,9 @@ class Pulllist {
   public function __toString(){
     //create an array and return json_encoded string
     $json = [
-    'wskey' => '(hidden)',
-    'secret' => '(hidden)',
-    'ppid' => '(hidden)',
+    'wskey' =>$this->wskey,
+    'secret' => $this->secret,
+    'ppid' => $this->ppid,
 
     'institution' => $this->institution,
     'defaultBranch' => $this->defaultBranch,
@@ -88,13 +93,15 @@ class Pulllist {
 
     'list' => $this->list,
     'no_of_items' => $this->no_of_items,
-    'pulllist_filename' => $this->pulllist_filename,
-    'previous_pulllist_filename' => $this->previous_pulllist_filename,
 
-    'twig' => ($this->twig === null) ? $this->twig : 'is initiated',
-    'template' => $this->template,
+    'pullist_dir' => $this->pullist_dir,
     'tickets_dir' => $this->tickets_dir,
     'tobeprinted_dir' => $this->tobeprinted_dir,
+    'pulllist_filename' => $this->pulllist_filename,
+    'previous_pulllist_filename' => $this->previous_pulllist_filename,
+    'patron' => get_object_vars($this->patron),
+    'twig' => ($this->twig === null) ? $this->twig : 'is initiated',
+    'template' => $this->template,
     ];
     return json_encode($json, JSON_PRETTY_PRINT);
   }
@@ -170,14 +177,6 @@ class Pulllist {
     }
   }
 
-  public function get_list() {
-    return $this->list;
-  }
-
-  public function get_number_of_items() {
-    return $this->no_of_items;
-  }
-
   public function get_item($i) {
     $result = null;
     if ($this->list && array_key_exists('entries',$this->list) && ($i < $this->no_of_items)) {
@@ -190,7 +189,17 @@ class Pulllist {
     //use Twig to make a html file for each entry
 
     if ($this->list && array_key_exists('entries',$this->list)) {
+      $tel = 0;
       foreach ($this->list['entries'] as $entry) {
+        $tel++;
+        $patronIdentifier = $entry['content']['patronIdentifier']['ppid'];
+        echo "<hr/><br>patron identifier from list [$tel]: ".$patronIdentifier."<br>";
+        $this->patron->read_patron($patronIdentifier);
+        $barcode = $this->patron->get_barcode();
+        echo "<br>patron barcode[$tel]: ".$barcode."<br>";
+        echo "<br>errors[$tel]: ".json_encode($this->patron->errors,JSON_PRETTY_PRINT)."<br>";
+        
+        $entry['content']['lenerbarcode']=$barcode;
 
         try {
           $html = $this->twig->render($this->template, $entry);
