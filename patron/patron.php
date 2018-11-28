@@ -46,9 +46,15 @@ class Patron {
   public $search_method = 'POST';
   public $search_POST = true;
 
+  public $create_url = "";
+  public $create_headers = ['Accept: application/scim+json',
+                             'Content-Type: application/scim+json'];
+  public $create_method = 'POST';
+  public $create_POST = true;
 
   public $patron = null;
   public $search = null;
+  public $create = null;
 
   public function __construct($wskey,$secret,$ppid) {
     //oclc business
@@ -62,15 +68,15 @@ class Patron {
 
     //https://{institution-identifier}.share.worldcat.org/idaas/scim/v2/Users/.search
     $this->search_url = 'https://'.$this->institution.'.'.$this->idm_url.'/.search';
+
+    //https://{institution-identifier}.share.worldcat.org/idaas/scim/v2/Users
+    $this->create_url = 'https://'.$this->institution.'.'.$this->idm_url;
   }
 
   public function __toString(){
     //create an array and return json_encoded string
     $json = [
     'errors' => $this->errors,
-    'wskey' => '(hidden)',
-    'secret' => '(hidden)',
-    'ppid' => '(hidden)',
 
     'institution' => $this->institution,
     'defaultBranch' => $this->defaultBranch,
@@ -90,6 +96,7 @@ class Patron {
     'search_POST' => $this->search_POST,
     'patron' => $this->patron,
     'search' => $this->search,
+    'create' => $this->create,
 
     ];
     return json_encode($json, JSON_PRETTY_PRINT);
@@ -166,7 +173,6 @@ class Patron {
   public function read_patron($id) {
     //authorization
     $token_authorization = $this->get_access_token_authorization();
-    echo $token_authorization;
     array_push($this->read_headers,$token_authorization);
     $url = $this->read_url.'/'.$id;
     //CURL
@@ -244,5 +250,52 @@ class Patron {
     }
   }
 
-}
+/*
+For a user which wants to use the Circulation portion of WorldShare Management Services we reccomend at least the following fields:
 
+    givenName
+    familyName
+    email
+    circulationInfo section
+        barcode
+        borrowerCategory
+        homeBranch
+*/
+
+  public function create_patron($scim_json) {
+    
+    //authorization
+    $token_authorization = $this->get_access_token_authorization();
+    array_push($this->search_headers,$token_authorization);
+    
+    //CURL
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $this->create_url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $this->create_headers);
+    curl_setopt($curl, CURLOPT_POST, $this->create_POST);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $scim_json);
+
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //curl_setopt($curl, CURLOPT_, );
+    //curl_setopt($curl, CURLOPT_, );
+
+    $result = curl_exec($curl);
+    $error_number = curl_errno($curl);
+    curl_close($curl);
+
+
+    if ($error_number) {
+      //return info in json format
+      $result = '{"Curl_errno": "'.$error_number.'", "Curl_error": "'.curl_error($curl).'"}';
+      $this->errors['curl'] = json_decode($result,TRUE);
+      return false;
+    }
+    else {
+      //store result in this object as an array
+      $this->create = json_decode($result,TRUE);
+
+      return $result;
+    }
+  }
+}
