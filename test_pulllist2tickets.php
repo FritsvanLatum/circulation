@@ -12,26 +12,38 @@ $pulllist = new Pulllist($config['wskey'],$config['secret'],$config['ppid'],$con
 
   </head>
   <body>
-    <p>Config:
-      <pre><?php echo json_encode($config,JSON_PRETTY_PRINT );?></pre>
+    <p>Keys etc. Circulation:
+      <pre>
+<?php echo json_encode($config,JSON_PRETTY_PRINT );?>
+      </pre>
     </p>
-    <p>Config IDM:
-      <pre><?php echo json_encode($config_idm,JSON_PRETTY_PRINT );?></pre>
+    <p>Keys etc. IDM:
+      <pre>
+<?php echo json_encode($config_idm,JSON_PRETTY_PRINT );?>
+      </pre>
     </p>
 
 <?php    
 if ($pulllist->get_pulllist()) {
 ?>  
-    <p>Pulllist after get_pulllist:
-      <pre><?php echo $pulllist;?></pre>
+
+    <p>Result of pulllist request:
+      <pre>
+<?php echo $pulllist;?>
+      </pre>
     </p>
 
+    <p>Generating tickets:
+      <pre>
 <?php
+  //see function items2html in ./pullist/pullist.php
 	$pulllist->items2html();
 }
 ?>
+      </pre>
+    </p>
     
-
+    
     
   </body>
 

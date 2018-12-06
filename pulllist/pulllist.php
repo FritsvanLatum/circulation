@@ -4,18 +4,23 @@ require_once './OCLC/User.php';
 require_once __DIR__.'/../patron/patron.php';
 require_once __DIR__.'/../vendor/autoload.php';
 
-
 /**
-* A class that represents a pullist
+* A class that represents a pulllist
 */
 class Pulllist {
 
   private $errors = [];
+  private $error_log = __DIR__.'pullist_error.log';
+  private $logging = 'all'; //'none','errors','all'
 
   //must be provided as parameters in $pulllist = new Pulllist($wskey,$secret,$ppid), see __construct
   private $wskey = null;
   private $secret = null;
   private $ppid = null;
+
+  private $idm_wskey = null;
+  private $idm_secret = null;
+  private $idm_ppid = null;
 
   private $institution = "57439";
   private $defaultBranch = "262638";
@@ -48,6 +53,10 @@ class Pulllist {
 
   public function __construct($wskey,$secret,$ppid,$idm_wskey,$idm_secret,$idm_ppid) {
     //oclc business
+    $this->idm_wskey = $idm_wskey;
+    $this->idm_secret = $idm_secret;
+    $this->idm_ppid = $idm_ppid;
+
     $this->wskey = $wskey;
     $this->secret = $secret;
     $this->ppid = $ppid;
@@ -62,16 +71,15 @@ class Pulllist {
     $this->previous_pulllist_filename = $this->tickets_dir.'/'.$this->previous_pulllist_filename;
     $this->tobeprinted_dir = $this->tickets_dir.'/'.$this->tobeprinted_dir;
 
-    //$temp = new Patron($idm_wskey,$idm_secret,$idm_ppid);
-    //echo $temp;
-    $this->patron = new Patron($idm_wskey,$idm_secret,$idm_ppid);
-    
     //Twig
     $loader = new Twig_Loader_Filesystem(__DIR__);
     $this->twig = new Twig_Environment($loader, array(
     //specify a cache directory only in a production setting
     //'cache' => './compilation_cache',
     ));
+    
+    //logging
+    
   }
 
   public function __toString(){
@@ -100,13 +108,19 @@ class Pulllist {
     'tobeprinted_dir' => $this->tobeprinted_dir,
     'pulllist_filename' => $this->pulllist_filename,
     'previous_pulllist_filename' => $this->previous_pulllist_filename,
-    'patron' => get_object_vars($this->patron),
-    'twig' => ($this->twig === null) ? $this->twig : 'is initiated',
+    'patron' => ($this->patron === null) ? null : get_object_vars($this->patron),
+    'twig' => ($this->twig === null) ? null : 'is initiated',
     'template' => $this->template,
     ];
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
+  private function log_entry($c,$m) {
+    $logfile = fopen($this->error_log, "a");
+    fwrite($logfile, date("Y-m-d H:i:s")." [$c] $m\n");
+    fclose($logfile);
+  }
+  
   private function get_pulllist_auth_header($url,$method) {
     //get an authorization header
     //  with wskey, secret and if necessary user data from $config
@@ -120,7 +134,7 @@ class Pulllist {
         $user = new User($this->institution, $this->ppid, $this->ppid_namespace);
         $options['user'] = $user;
       }
-      //echo "Options: ".json_encode($options, JSON_PRETTY_PRINT);
+
       if (count($options) > 0) {
         $wskeyObj = new WSKey($this->wskey, $this->secret, $options);
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, $options);
@@ -178,10 +192,6 @@ class Pulllist {
     }
   }
 
-  public function get_list() {
-    return $this->list;
-  }
-
   public function get_item($i) {
     $result = null;
     if ($this->list && array_key_exists('entries',$this->list) && ($i < $this->no_of_items)) {
@@ -197,16 +207,14 @@ class Pulllist {
       $tel = 0;
       foreach ($this->list['entries'] as $entry) {
         $tel++;
+        $this->patron = new Patron($this->idm_wskey,$this->idm_secret,$this->idm_ppid);
+
         $patronIdentifier = $entry['content']['patronIdentifier']['ppid'];
-        echo "<hr/><br>patron identifier from list [$tel]: ".$patronIdentifier."<br>";
-
-//$patronIdentifier="9d1edb1d-d051-4fde-8431-169bfab07666";//ppid van Aad, hiermee wordt de correcte lenerbarcode opgehaald
-
-
+        echo "<hr/><br/>IDM request $tel<br/>patron identifier from list: ".$patronIdentifier."<br/>";
         $this->patron->read_patron($patronIdentifier);
         $barcode = $this->patron->get_barcode();
-        echo "<br>patron barcode[$tel]: ".$barcode."<br>";
-        echo "<br>errors[$tel]: ".json_encode($this->patron->errors,JSON_PRETTY_PRINT)."<br>";
+        echo "<br/>response patron barcode: ".$barcode."<br/>";
+        echo "<br/>errors: ".json_encode($this->patron->errors,JSON_PRETTY_PRINT)."<br/>";
         
         $entry['content']['lenerbarcode']=$barcode;
 
