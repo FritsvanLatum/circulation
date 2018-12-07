@@ -10,7 +10,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 class Pulllist {
 
   private $errors = [];
-  private $error_log = __DIR__.'pullist_error.log';
+  private $error_log = __DIR__.'/pullist_error';
   private $logging = 'all'; //'none','errors','all'
 
   //must be provided as parameters in $pulllist = new Pulllist($wskey,$secret,$ppid), see __construct
@@ -77,9 +77,9 @@ class Pulllist {
     //specify a cache directory only in a production setting
     //'cache' => './compilation_cache',
     ));
-    
+
     //logging
-    
+
   }
 
   public function __toString(){
@@ -115,12 +115,12 @@ class Pulllist {
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
-  private function log_entry($c,$m) {
-    $logfile = fopen($this->error_log, "a");
-    fwrite($logfile, date("Y-m-d H:i:s")." [$c] $m\n");
-    fclose($logfile);
+  private function log_entry($t,$c,$m) {
+    $this->errors[] = date("Y-m-d H:i:s")." $t [$c] $m";
+    $name = $this->error_log.'.'.date("Y-W").'.log';
+    return file_put_contents($name, date("Y-m-d H:i:s")." $t [$c] $m\n", FILE_APPEND);
   }
-  
+
   private function get_pulllist_auth_header($url,$method) {
     //get an authorization header
     //  with wskey, secret and if necessary user data from $config
@@ -143,8 +143,10 @@ class Pulllist {
         $wskeyObj = new WSKey($config['wskey'], $config['secret'],null);
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, null);
       }
-      //check??
       $authorizationHeader = 'Authorization: '.$authorizationHeader;
+    }
+    else {
+      $this->log_entry('Error','get_pulllist_auth_header','No wskey and/or no secret!');
     }
     return $authorizationHeader;
   }
@@ -152,7 +154,12 @@ class Pulllist {
   public function get_pulllist() {
     //authorization
     $authorizationHeader = $this->get_pulllist_auth_header($this->auth_url,$this->auth_method);
-    array_push($this->auth_headers,$authorizationHeader);
+    if (strlen($authorizationHeader) > 0) {
+      array_push($this->auth_headers,$authorizationHeader);
+    }
+    else {
+      $this->log_entry('Error','get_pulllist','No authorization header created!');
+    }
 
     //CURL
     $curl = curl_init();
@@ -160,35 +167,56 @@ class Pulllist {
     curl_setopt($curl, CURLOPT_URL, $this->pulllist_url);
     curl_setopt($curl, CURLOPT_HTTPHEADER, $this->auth_headers);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    //curl_setopt($curl, CURLOPT_, );
-    //curl_setopt($curl, CURLOPT_, );
 
     $result = curl_exec($curl);
     $error_number = curl_errno($curl);
+    $error_msg = curl_error($curl);
     curl_close($curl);
 
-
-    if ($error_number) {
-      //return info in json format
-      $result = '{"Curl_errno": "'.$error_number.'", "Curl_error": "'.curl_error($curl).'"}';
-      $this->errors['curl'] = json_decode($result,TRUE);
-      return false;
+    if ($result === FALSE) {
+      $this->log_entry('Error','get_pulllist','No result on cUrl request!');
+      if ($error_number) $this->log_entry('Error','get_pulllist',"No result, cUrl error [$error_number]: $error_msg");
+      return FALSE;
     }
     else {
-      //store result in this object as an array
-      $this->list = json_decode($result,TRUE);
-
-      //save but not after renaming the previous one
-      if (file_exists($this->pulllist_filename)) {
-        rename($this->pulllist_filename,$this->previous_pulllist_filename);
+      if (strlen($result) == 0) {
+        if ($error_number) {
+          $this->log_entry('Error','get_pulllist',"Empty result, cUrl error [$error_number]: $error_msg");
+        }
+        return FALSE;
       }
-      file_put_contents($this->pulllist_filename,json_encode($this->list, JSON_PRETTY_PRINT));
+      else {
+        if ($error_number) {
+          $this->log_entry('Error','get_pulllist',"Result but still cUrl error [$error_number]: $error_msg");
+        }
 
-      //number of items
-      if (array_key_exists('entries',$this->list)) {
-        $this->no_of_items = count($this->list['entries']);
+        $list = json_decode($result,TRUE);
+        $json_errno = json_last_error();
+        $json_errmsg = json_last_error_msg();
+
+        if ($json_errno == JSON_ERROR_NONE) {
+          //store result in this object as an array
+          $this->list = $list;
+
+          //save but not after renaming the previous one
+          if (file_exists($this->pulllist_filename)) {
+            $renamed = rename($this->pulllist_filename,$this->previous_pulllist_filename);
+            if (!$renamed) $this->log_entry('Warning','get_pulllist',"Existing pullist file could not be renamed.");
+          }
+          $written = file_put_contents($this->pulllist_filename,json_encode($this->list, JSON_PRETTY_PRINT));
+          if (!$written) $this->log_entry('Warning','get_pulllist',"New pullist file could not be saved.");
+          
+          //number of items
+          if (array_key_exists('entries',$this->list)) {
+            $this->no_of_items = count($this->list['entries']);
+          }
+          return TRUE;
+        }
+        else {
+          $this->log_entry('Error','get_pulllist',"json_decode error [$json_errno]: $json_errmsg");
+          return FALSE;
+        }
       }
-      return true;
     }
   }
 
@@ -207,35 +235,39 @@ class Pulllist {
       $tel = 0;
       foreach ($this->list['entries'] as $entry) {
         $tel++;
-        $this->patron = new Patron($this->idm_wskey,$this->idm_secret,$this->idm_ppid);
-
+        
+        //try to get the patron barcode
         $patronIdentifier = $entry['content']['patronIdentifier']['ppid'];
-        echo "<hr/><br/>IDM request $tel<br/>patron identifier from list: ".$patronIdentifier."<br/>";
+        $this->patron = new Patron($this->idm_wskey,$this->idm_secret,$this->idm_ppid);
         $this->patron->read_patron($patronIdentifier);
         $barcode = $this->patron->get_barcode();
-        echo "<br/>response patron barcode: ".$barcode."<br/>";
-        echo "<br/>errors: ".json_encode($this->patron->errors,JSON_PRETTY_PRINT)."<br/>";
         
+        if (strlen($barcode) == 0) {
+          $this->log_entry('Warning','items2html',"Entry $tel: No barcode returned from ppid $patronIdentifier");
+        }
+
         $entry['content']['lenerbarcode']=$barcode;
 
         try {
           $html = $this->twig->render($this->template, $entry);
-          
+
           //use request id as filename
           $filename = $this->tobeprinted_dir.'/'.$entry['content']['requestId'].'.html';
           if (file_exists($filename)) {
-            //-------- for testing, in production: do nothing if file exists
-            echo "File exists: ".$filename;
-            file_put_contents($filename,$html);
+            $this->log_entry('Warning','items2html',"File already exists: $filename");
           }
           else {
-            file_put_contents($filename,$html);
+            $written = file_put_contents($filename,$html);
+            if (!$written) $this->log_entry('Error','items2html',"File could not be written: $filename");
           }
         }
         catch (Exception $e) {
-          echo 'Caught exception: ',  $e->getMessage(), "\n";
+          $this->log_entry('Error','items2html',"Twig exception: ".$e->getMessage());
         }
       }
+    }
+    else {
+      $this->log_entry('Warning','items2html',"No list or no entries in list");
     }
   }
 }

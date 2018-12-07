@@ -38,6 +38,7 @@ if ($pulllist->get_pulllist()) {
 <?php
   //see function items2html in ./pullist/pullist.php
 	$pulllist->items2html();
+	echo 'Done!';
 }
 ?>
       </pre>
