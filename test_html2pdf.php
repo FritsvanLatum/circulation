@@ -33,10 +33,12 @@ $printer_as_dir = __DIR__.'/pulllist/tickets/temp_printer';
           //PRINT TO PRINTER
           //deze regel vervangen door rechtstreeks printen
           //of aanvullen met een print opdracht, bijv. met shell_exec()
+          
+          //save pdf to $printer_as_dir
           $mpdf->Output($printer_as_dir.'/'.$pdf_file);
 
 
-          //IF printing was ok: copy html file naar printed
+          //IF printing was ok: copy html file naar $printed_dir
           $renamed = rename($tobeprinted_dir.'/'.$file,$printed_dir.'/'.$file);
           if ($renamed === FALSE) echo "rename did not succeed!<br/>"; 
 

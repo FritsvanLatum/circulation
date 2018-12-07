@@ -10,8 +10,8 @@ require_once __DIR__.'/../vendor/autoload.php';
 class Pulllist {
 
   private $errors = [];
-  private $error_log = __DIR__.'/pullist_error';
-  private $logging = 'all'; //'none','errors','all'
+  private $error_log = __DIR__.'/../pulllist_error';
+  private $logging = 'all'; //'none','errors','all' (not yet implemented
 
   //must be provided as parameters in $pulllist = new Pulllist($wskey,$secret,$ppid), see __construct
   private $wskey = null;
@@ -180,6 +180,7 @@ class Pulllist {
     }
     else {
       if (strlen($result) == 0) {
+        $this->log_entry('Error','get_pulllist','Empty result on cUrl request!');
         if ($error_number) {
           $this->log_entry('Error','get_pulllist',"Empty result, cUrl error [$error_number]: $error_msg");
         }
@@ -239,7 +240,7 @@ class Pulllist {
         //try to get the patron barcode
         $patronIdentifier = $entry['content']['patronIdentifier']['ppid'];
         $this->patron = new Patron($this->idm_wskey,$this->idm_secret,$this->idm_ppid);
-        $this->patron->read_patron($patronIdentifier);
+        $this->patron->read_patron_ppid($patronIdentifier);
         $barcode = $this->patron->get_barcode();
         
         if (strlen($barcode) == 0) {

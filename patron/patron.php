@@ -9,6 +9,8 @@ require_once './OCLC/User.php';
 class Patron {
 
   public $errors = [];
+  private $error_log = __DIR__.'/../patron_error';
+  private $logging = 'all'; //'none','errors','all' (not yet implemented
 
   //must be provided as parameters in $patron = new Patron($wskey,$secret,$ppid), see __construct
   private $wskey = null;
@@ -42,13 +44,13 @@ class Patron {
 
   public $search_url = "";
   public $search_headers = ['Accept: application/scim+json',
-                             'Content-Type: application/scim+json'];
+  'Content-Type: application/scim+json'];
   public $search_method = 'POST';
   public $search_POST = true;
 
   public $create_url = "";
   public $create_headers = ['Accept: application/scim+json',
-                             'Content-Type: application/scim+json'];
+  'Content-Type: application/scim+json'];
   public $create_method = 'POST';
   public $create_POST = true;
 
@@ -102,6 +104,11 @@ class Patron {
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
+  private function log_entry($t,$c,$m) {
+    $this->errors[] = date("Y-m-d H:i:s")." $t [$c] $m";
+    $name = $this->error_log.'.'.date("Y-W").'.log';
+    return file_put_contents($name, date("Y-m-d H:i:s")." $t [$c] $m\n", FILE_APPEND);
+  }
 
   private function get_auth_header($url,$method) {
     //get an authorization header
@@ -128,13 +135,21 @@ class Patron {
       //check??
       $authorizationHeader = 'Authorization: '.$authorizationHeader;
     }
+    else {
+      $this->log_entry('Error','get_pulllist_auth_header','No wskey and/or no secret!');
+    }
     return $authorizationHeader;
   }
 
   private function get_access_token_authorization() {
     $token_authorization = "";
     $authorizationHeader = $this->get_auth_header($this->token_url,$this->token_method);
-    array_push($this->token_headers,$authorizationHeader);
+    if (strlen($authorizationHeader) > 0) {
+      array_push($this->token_headers,$authorizationHeader);
+    }
+    else {
+      $this->log_entry('Error','get_access_token_authorization','No authorization header created!');
+    }
 
     $curl = curl_init();
 
@@ -149,31 +164,58 @@ class Patron {
 
     $result = curl_exec($curl);
     $error_number = curl_errno($curl);
+    $error_msg = curl_error($curl);
+    curl_close($curl);
 
-    if ($error_number) {
-      $this->errors[] = "get_access_token_authorization: curl errno: $error_number, curl_error: ".curl_error($curl);
-    }
-    
-    $token_array = json_decode($result,TRUE);
-    if ($token_array === null) {
-      $this->errors[] = "get_access_token_authorization: json_decode returned null";
-      $this->errors[] = "  json error: ".json_last_error()." - ".json_last_error_msg();
-    }
-    elseif (array_key_exists('access_token',$token_array)){
-      $token_authorization = 'Authorization: Bearer '.$token_array['access_token'];
+    if ($result === FALSE) {
+      $this->log_entry('Error','get_access_token_authorization','No result on cUrl request!');
+      if ($error_number) $this->log_entry('Error','get_access_token_authorization',"No result, cUrl error [$error_number]: $error_msg");
+      return FALSE;
     }
     else {
-      $this->errors[] = "get_access_token_authorization: no access_token returned (curl result: ".$result.")";
+      if (strlen($result) == 0) {
+        $this->log_entry('Error','get_access_token_authorization','Empty result on cUrl request!');
+        if ($error_number) {
+          $this->log_entry('Error','get_access_token_authorization',"Empty result, cUrl error [$error_number]: $error_msg");
+        }
+        return FALSE;
+      }
+      else {
+        if ($error_number) {
+          $this->log_entry('Error','get_access_token_authorization',"Result but still cUrl error [$error_number]: $error_msg");
+        }
+        $token_array = json_decode($result,TRUE);
+        $json_errno = json_last_error();
+        $json_errmsg = json_last_error_msg();
+        if ($json_errno == JSON_ERROR_NONE) {
+          if (array_key_exists('access_token',$token_array)){
+            $token_authorization = 'Authorization: Bearer '.$token_array['access_token'];
+          }
+          else {
+            $this->log_entry('Error','get_access_token_authorization',"No access_token returned (curl result: ".$result.")");
+            return FALSE;
+          }
+        }
+        else {
+          $this->log_entry('Error','get_access_token_authorization',"json_decode error [$json_errno]: $json_errmsg");
+          return FALSE;
+        }
+      }
     }
-    
-    curl_close($curl);
     return $token_authorization;
   }
 
-  public function read_patron($id) {
+  public function read_patron_ppid($id) {
     //authorization
     $token_authorization = $this->get_access_token_authorization();
-    array_push($this->read_headers,$token_authorization);
+    if (strlen($token_authorization) > 0) {
+      array_push($this->read_headers,$token_authorization);
+    }
+    else {
+      $this->log_entry('Error','read_patron_ppid','No token authorization header created!');
+    }
+    
+    
     $url = $this->read_url.'/'.$id;
     //CURL
     $curl = curl_init();
@@ -186,26 +228,45 @@ class Patron {
 
     $result = curl_exec($curl);
     $error_number = curl_errno($curl);
+    $error_msg = curl_error($curl);
     curl_close($curl);
 
-
-    if ($error_number) {
-      //return info in json format
-      $result = '{"Curl_errno": "'.$error_number.'", "Curl_error": "'.curl_error($curl).'"}';
-      $this->errors['curl'] = json_decode($result,TRUE);
-      return false;
+    if ($result === FALSE) {
+      $this->log_entry('Error','read_patron_ppid','No result on cUrl request!');
+      if ($error_number) $this->log_entry('Error','read_patron_ppid',"No result, cUrl error [$error_number]: $error_msg");
+      return FALSE;
     }
     else {
-      //store result in this object as an array
-      $this->patron = json_decode($result,TRUE);
-
-      return true;
+      if (strlen($result) == 0) {
+        $this->log_entry('Error','read_patron_ppid','Empty result on cUrl request!');
+        if ($error_number) {
+          $this->log_entry('Error','read_patron_ppid',"Empty result, cUrl error [$error_number]: $error_msg");
+        }
+        return FALSE;
+      }
+      else {
+        if ($error_number) {
+          $this->log_entry('Error','read_patron_ppid',"Result but still cUrl error [$error_number]: $error_msg");
+        }
+        $patron_received = json_decode($result,TRUE);
+        $json_errno = json_last_error();
+        $json_errmsg = json_last_error_msg();
+        if ($json_errno == JSON_ERROR_NONE) {
+          //store result in this object as an array
+          $this->patron = $patron_received;
+          return TRUE;
+        }
+        else {
+          $this->log_entry('Error','read_patron_ppid',"json_decode error [$json_errno]: $json_errmsg");
+          return FALSE;
+        }
+      }
     }
   }
 
   public function get_barcode() {
     $barcode = '';
-    if ($this->patron) {
+    if ($this->patron && array_key_exists('externalId', $this->patron)) {
       $barcode = $this->patron['externalId'];
     }
     return $barcode;
@@ -215,18 +276,18 @@ class Patron {
     //authorization
     $token_authorization = $this->get_access_token_authorization();
     array_push($this->search_headers,$token_authorization);
-    
+
     //CURL
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, $this->search_url);
     curl_setopt($curl, CURLOPT_HTTPHEADER, $this->search_headers);
     curl_setopt($curl, CURLOPT_POST, $this->search_POST);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, 
-'{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest",
-"urn:ietf:params:scim:schemas:core:2.0:User"],
-"filter": "name.familyName co \"Verweij\""}'
-);
+    curl_setopt($curl, CURLOPT_POSTFIELDS,
+    '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest",
+    "urn:ietf:params:scim:schemas:core:2.0:User"],
+    "filter": "name.familyName co \"Verweij\""}'
+    );
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     //curl_setopt($curl, CURLOPT_, );
     //curl_setopt($curl, CURLOPT_, );
@@ -250,24 +311,24 @@ class Patron {
     }
   }
 
-/*
-For a user which wants to use the Circulation portion of WorldShare Management Services we reccomend at least the following fields:
+  /*
+  For a user which wants to use the Circulation portion of WorldShare Management Services we reccomend at least the following fields:
 
-    givenName
-    familyName
-    email
-    circulationInfo section
-        barcode
-        borrowerCategory
-        homeBranch
-*/
+  givenName
+  familyName
+  email
+  circulationInfo section
+  barcode
+  borrowerCategory
+  homeBranch
+  */
 
   public function create_patron($scim_json) {
-    
+
     //authorization
     $token_authorization = $this->get_access_token_authorization();
     array_push($this->search_headers,$token_authorization);
-    
+
     //CURL
     $curl = curl_init();
 
