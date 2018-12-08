@@ -133,6 +133,7 @@ class Pulllist {
         //uses OCLC provided programming to get an autorization header
         $user = new User($this->institution, $this->ppid, $this->ppid_namespace);
         $options['user'] = $user;
+        //echo "User: ".$user->getPrincipalID();
       }
 
       if (count($options) > 0) {
