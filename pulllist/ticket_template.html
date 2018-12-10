@@ -13,23 +13,23 @@
       <tbody>
         <tr>
           <td>Date</td>
-          <td>{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
+          <td id="date">{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
         </tr>
         <tr>
           <td>Call number</td>
-          <td>{{ content.callNumber.description }}</td>
+          <td id="callNumber">{{ content.callNumber.description }}</td>
         </tr>
         <tr>
           <td>Year/Vol./No.</td>
-          <td> </td>
+          <td id="issue"> </td>
         </tr>
         <tr>
           <td>Title</td>
-          <td>{{ title }}</td>
+          <td id="title">{{ title }}</td>
         </tr>
         <tr>
           <td>Author</td>
-          <td>{{ content.author }}</td>
+          <td id="author">{{ content.author }}</td>
         </tr>
         <tr>
           <td>Barcode item:</td>
@@ -87,7 +87,7 @@
           <td>{{ content.author }}</td>
         </tr>
         <tr>
-          <td>Barcode</td>
+          <td id="barcode">Barcode</td>
           <td>{{ content.pieceDesignation }}</td>
         </tr>
         <tr>
@@ -95,7 +95,7 @@
         </tr>
         <tr>
           <td>Name</td>
-          <td>{{ content.patronName }} ( {{ content.lenerbarcode }} )</td>
+          <td id="patron">{{ content.patronName }} ( {{ content.lenerbarcode }} )</td>
         </tr>
         <tr>
           <td>&nbsp;</td><td></td>

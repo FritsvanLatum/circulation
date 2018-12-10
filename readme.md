@@ -1,29 +1,53 @@
-# Ticket printing from pulllists
+# Tickets and ID cards printing Peace Palace Library
 
 
 ## Description
+Tools for printing tickets from pulllists and ID Cards. Uses OCLC API's.
 
-This applications needs a file *key.php* with the following lines:
+##Conditions
+
+This applications needs two files with OCLC's wskeys, secrets and ppid's:
+
+*pulllist/key.php*
+
 ```
 $config = [];
-
-//wskey en secret van PPL-APIkey
 $config['wskey'] = {your key};
 $config['secret'] = {your secret};
-
-//user loopbonnenprinter in WMS
-$config['ppid'] = {ppid of your institution};
+$config['ppid'] = {ppid of a patron with adequate roles from your institution};
 ```
 
-## Usage
+*patron/key_idm.php*
+
+```
+$config_idm = [];
+$config_idm['wskey'] = {your key};
+$config_idm['secret'] = {your secret};
+$config_idm['ppid'] = {ppid of a patron with adequate roles from your institution};
+```
+
+## ID cards
+
+
+## Tickets (loopbonnen)
 
 Use:
 ```
 php pulllist2tickets.php
 ```
-on the commandline in order to get tickets from pullists.
+on the commandline in order to generate tickets from the pulllist in WMS.
 
-Schedule *pulllist2tickets.php* in order to get tickets from pullists. E.g. each half hour.
+Use:
+```
+php html2pdf.php
+```
+on the commandline in order to send tickets to a printer.
+
+Schedule *pulllist2tickets.php* and (after some minutes) *html2pdf.php* in order to get tickets from pullists. E.g. each half hour.
+
+For inspecting what has to be printed and what already is printed use the webpage *tickets.php*
+
+For testing purposes open *test_pulllist2tickets.php* and *test_html2pdf.php* in a browser.
 
 ## Uses
 
