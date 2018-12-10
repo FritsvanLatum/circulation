@@ -2,9 +2,8 @@
 
 
 ## Description
-Tools for printing tickets from pulllists and ID Cards. Uses OCLC API's.
 
-##Conditions
+Tools for printing tickets from pulllists and ID Cards. Uses OCLC API's.
 
 This applications needs two files with OCLC's wskeys, secrets and ppid's:
 
