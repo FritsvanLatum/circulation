@@ -2,7 +2,7 @@
 require_once './patron/key_idm.php';
 require_once './patron/patron.php';
 
-$patron = null;
+$patron_barcode = null;
 if (array_key_exists('patron',$_POST)) {
 
 
@@ -41,19 +41,19 @@ if (array_key_exists('patron',$_POST)) {
 
     <form action="" method="post">
 
-      Patron barcode: <input type="text" name="patron" /> <br />
+      Patron barcode: <input type="text" name="patron" <?php if ($patron_barcode) echo 'value="'.$patron_barcode.'"' ; ?> /> <br />
       <input type="submit" value="Submit">
     </form>
     <div>
       Search:
       <pre>
-        <?php if ($patron) echo $search;?>
+        <?php if ($patron_barcode) echo $search;?>
       </pre>
     </div>
     <div>
       Patron:
       <pre>
-        <?php if ($patron) echo $patron;?>
+        <?php if ($patron_barcode) echo $patron;?>
       </pre>
     </div>
   </body>
