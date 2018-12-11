@@ -272,7 +272,7 @@ class Patron {
     return $barcode;
   }
 
-  public function search_patron() {
+  public function search_patron($search) {
     //authorization
     $token_authorization = $this->get_access_token_authorization();
     array_push($this->search_headers,$token_authorization);
@@ -283,11 +283,7 @@ class Patron {
     curl_setopt($curl, CURLOPT_URL, $this->search_url);
     curl_setopt($curl, CURLOPT_HTTPHEADER, $this->search_headers);
     curl_setopt($curl, CURLOPT_POST, $this->search_POST);
-    curl_setopt($curl, CURLOPT_POSTFIELDS,
-    '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest",
-    "urn:ietf:params:scim:schemas:core:2.0:User"],
-    "filter": "name.familyName co \"Verweij\""}'
-    );
+    curl_setopt($curl, CURLOPT_POSTFIELDS,$search);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     //curl_setopt($curl, CURLOPT_, );
     //curl_setopt($curl, CURLOPT_, );
