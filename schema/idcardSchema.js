@@ -1,7 +1,7 @@
 
 schemaObj =
 {
-  title: "Barcode",
+  title: "ID Card printing",
   type: "object",
   properties: {
     patronBarcode: {

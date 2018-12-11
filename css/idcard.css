@@ -1,7 +1,7 @@
 body {
 	margin:10px;
 }
-#editor {
+#editor, #buttons {
   margin:20px;
   width: 50%;
 }
@@ -30,9 +30,8 @@ div.minimalistBlack {
   width: 60%;
   text-align: left;
   border-collapse: collapse;
-  margin: 20px;
 }
-.divTable.minimalistBlack .label, .divTable.minimalistBlack .value {
+.divTable.minimalistBlack .labelC, .divTable.minimalistBlack .valueC {
   border: 1px solid #000000;
   padding: 5px 4px;
 }
@@ -43,11 +42,11 @@ div.minimalistBlack {
   font-size: 14px;
 }
 
-.label {width:20%;}
-.value {width:80%;}
+.labelC {width:20%;}
+.valueC {width:80%;}
 
 /* DivTable.com */
 .divTable{ display: table; }
 .divTableRow { display: table-row; }
-.label, .value { display: table-cell;}
+.labelC, .valueC { display: table-cell;}
 .divTableBody { display: table-row-group;}

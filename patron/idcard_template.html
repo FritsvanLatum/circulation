@@ -1,28 +1,29 @@
+<div id="patronData">
     <div class="divTable minimalistBlack">
       <div class="divTableBody">
         <div class="divTableRow">
-          <div class="label">Resource no.:</div>
-          <div class="value">{{teller}}</div>
+          <div class="labelC">Resource no.:</div>
+          <div class="valueC">{{teller}}</div>
         </div>
         <div class="divTableRow">
-          <div class="label">Last name:</div>
-          <div class="value">{{name.familyName}}</div>
+          <div class="labelC">Last name:</div>
+          <div class="valueC">{{name.familyName}}</div>
         </div>
         <div class="divTableRow">
-          <div class="label">First name:</div>
-          <div class="value">{{name.givenName}}</div>
+          <div class="labelC">First name:</div>
+          <div class="valueC">{{name.givenName}}</div>
         </div>
         <div class="divTableRow">
-          <div class="label">Barcode:</div>
-          <div class="value">{{externalId}}</div>
+          <div class="labelC">Barcode:</div>
+          <div class="valueC">{{externalId}}</div>
         </div>
         <div class="divTableRow">
-          <div class="label">Email:</div>
-          <div class="value">{{emails[0].value}}</div>
+          <div class="labelC">Email:</div>
+          <div class="valueC">{{emails[0].value}}</div>
         </div>
         <div class="divTableRow">
-          <div class="label">Adress</div>
-          <div class="value">
+          <div class="labelC">Adress</div>
+          <div class="valueC">
             {{addresses[0].streetAddress}}<br/>
             {{addresses[0].locality}}<br/>
             {{addresses[0].region}}<br/>
@@ -32,3 +33,5 @@
         </div>
       </div>
     </div>
+    <button id='print'>Print ID card</button>
+</div>

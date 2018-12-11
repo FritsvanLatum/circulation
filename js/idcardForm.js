@@ -68,4 +68,8 @@ editor.on('ready',function() {
     var emptyURL = document.location.origin + document.location.pathname;
     window.location.assign(emptyURL);
   });
+
+  $('#print').on('click',function() {
+    alert('Print!');
+  });
 });
