@@ -1,5 +1,28 @@
-div.form {
-  margin: 20px;
+body {
+	margin:10px;
+}
+#editor {
+  margin:20px;
+  width: 50%;
+}
+img { 
+	border-style:none; 
+	margin:0px 
+}
+label {
+	width:25%;
+	min-width:200px;
+	vertical-align:top;
+	margin:10px,0,0,0;
+}
+.controls {
+	display:inline-block;
+	width:60%;
+}
+
+.help-inline {
+	display:block;
+	padding-left: 0px;
 }
 
 div.minimalistBlack {
