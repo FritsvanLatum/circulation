@@ -44,7 +44,7 @@ if (array_key_exists('patronBarcode',$_GET)) {
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
-    <script type="text/javascript" src="schema/idCardSchema.js"></script>
+    <script type="text/javascript" src="schema/idcardSchema.js"></script>
   </head>
 
   <body>
