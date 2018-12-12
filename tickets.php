@@ -3,7 +3,7 @@
 require_once './vendor/autoload.php';
 
 $tobeprinted_dir = 'pulllist/tickets/tobeprinted';
-$printed_dir = __DIR__.'/pulllist/tickets/printed';
+$printed_dir = 'pulllist/tickets/printed';
 
 //$mpdf = new \Mpdf\Mpdf();
 
