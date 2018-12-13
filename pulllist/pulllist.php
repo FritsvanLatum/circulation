@@ -42,6 +42,7 @@ class Pulllist {
   private $pullist_dir = null;
   private $tickets_dir = 'tickets';
   private $tobeprinted_dir = 'tobeprinted';
+  private $printed_dir = 'printed';
   private $pdf_dir = 'temp_printer';
   private $pulllist_filename = 'actual_pulllist.json';
   private $previous_pulllist_filename = 'previous_pulllist.json';
@@ -71,6 +72,7 @@ class Pulllist {
     $this->pulllist_filename = $this->tickets_dir.'/'.$this->pulllist_filename;
     $this->previous_pulllist_filename = $this->tickets_dir.'/'.$this->previous_pulllist_filename;
     $this->tobeprinted_dir = $this->tickets_dir.'/'.$this->tobeprinted_dir;
+    $this->printed_dir = $this->tickets_dir.'/'.$this->printed_dir;
     $this->pdf_dir = $this->tickets_dir.'/'.$this->pdf_dir;
 
     //Twig
@@ -108,6 +110,7 @@ class Pulllist {
     'pullist_dir' => $this->pullist_dir,
     'tickets_dir' => $this->tickets_dir,
     'tobeprinted_dir' => $this->tobeprinted_dir,
+    'printed_dir' => $this->printed_dir,
     'pdf_dir' => $this->pdf_dir,
     'pulllist_filename' => $this->pulllist_filename,
     'previous_pulllist_filename' => $this->previous_pulllist_filename,
@@ -241,6 +244,7 @@ class Pulllist {
       foreach ($this->list['entries'] as $entry) {
         $tel++;
 
+
         //try to get the patron barcode
         $patronIdentifier = $entry['content']['patronIdentifier']['ppid'];
         $this->patron = new Patron($this->idm_wskey,$this->idm_secret,$this->idm_ppid);
@@ -254,32 +258,37 @@ class Pulllist {
         $entry['content']['lenerbarcode']=$barcode;
 
         try {
-          //use request id in filenames
           $html_filename = $this->tobeprinted_dir.'/'.$entry['content']['requestId'].'.html';
+          $printed_filename = $this->printed_dir.'/'.$entry['content']['requestId'].'.html';
           $pdf_filename = $this->pdf_dir.'/'.$entry['content']['requestId'].'.pdf';
+
           $html = '';
-          if (file_exists($html_filename)) {
-            $this->log_entry('Warning','items2html',"html file already exists: $html_filename");
-            if (!file_exists($pdf_filename)) $html = file_get_contents($html_filename);
+          if (file_exists($printed_filename)) {
+            //already printed: do nothing
+            $this->log_entry('Warning','items2html',"file already printed: $printed_filename");
           }
           else {
-            //generate html
-            $html = $this->twig->render($this->template, $entry);
-            $written = file_put_contents($html_filename,$html);
-            if (!$written) $this->log_entry('Error','items2html',"File could not be written: $filename");
-          }
+            if (file_exists($html_filename)) {
+              if (!file_exists($pdf_filename)) $html = file_get_contents($html_filename);
+            }
+            else {
+              //generate html
+              $html = $this->twig->render($this->template, $entry);
+              $written = file_put_contents($html_filename,$html);
+              if (!$written) $this->log_entry('Error','items2html',"File could not be written: $filename");
+            }
 
-          if (file_exists($pdf_filename)) {
-            $this->log_entry('Warning','items2html',"pdf file already exists: $pdf_filename");
+            if (file_exists($pdf_filename)) {
+              $this->log_entry('Warning','items2html',"pdf file already exists: $pdf_filename");
+            }
+            else {
+              //generate pdf from html
+              $mpdf = new \Mpdf\Mpdf();
+              $mpdf->WriteHTML($html);
+              //save pdf to $printer_as_dir
+              $mpdf->Output($pdf_filename);
+            }
           }
-          else {
-            //generate pdf from html
-            $mpdf = new \Mpdf\Mpdf();
-            $mpdf->WriteHTML($html);
-            //save pdf to $printer_as_dir
-            $mpdf->Output($pdf_filename);
-          }
-
         }
         catch (Exception $e) {
           $this->log_entry('Error','items2html',"Twig/Mpdf exception: ".$e->getMessage());
