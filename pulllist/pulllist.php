@@ -42,6 +42,7 @@ class Pulllist {
   private $pullist_dir = null;
   private $tickets_dir = 'tickets';
   private $tobeprinted_dir = 'tobeprinted';
+  private $pdf_dir = 'temp_printer';
   private $pulllist_filename = 'actual_pulllist.json';
   private $previous_pulllist_filename = 'previous_pulllist.json';
 
@@ -70,6 +71,7 @@ class Pulllist {
     $this->pulllist_filename = $this->tickets_dir.'/'.$this->pulllist_filename;
     $this->previous_pulllist_filename = $this->tickets_dir.'/'.$this->previous_pulllist_filename;
     $this->tobeprinted_dir = $this->tickets_dir.'/'.$this->tobeprinted_dir;
+    $this->pdf_dir = $this->tickets_dir.'/'.$this->pdf_dir;
 
     //Twig
     $loader = new Twig_Loader_Filesystem(__DIR__);
@@ -106,6 +108,7 @@ class Pulllist {
     'pullist_dir' => $this->pullist_dir,
     'tickets_dir' => $this->tickets_dir,
     'tobeprinted_dir' => $this->tobeprinted_dir,
+    'pdf_dir' => $this->pdf_dir,
     'pulllist_filename' => $this->pulllist_filename,
     'previous_pulllist_filename' => $this->previous_pulllist_filename,
     'patron' => ($this->patron === null) ? null : get_object_vars($this->patron),
@@ -207,7 +210,7 @@ class Pulllist {
           }
           $written = file_put_contents($this->pulllist_filename,json_encode($this->list, JSON_PRETTY_PRINT));
           if (!$written) $this->log_entry('Warning','get_pulllist',"New pullist file could not be saved.");
-          
+
           //number of items
           if (array_key_exists('entries',$this->list)) {
             $this->no_of_items = count($this->list['entries']);
@@ -237,13 +240,13 @@ class Pulllist {
       $tel = 0;
       foreach ($this->list['entries'] as $entry) {
         $tel++;
-        
+
         //try to get the patron barcode
         $patronIdentifier = $entry['content']['patronIdentifier']['ppid'];
         $this->patron = new Patron($this->idm_wskey,$this->idm_secret,$this->idm_ppid);
         $this->patron->read_patron_ppid($patronIdentifier);
         $barcode = $this->patron->get_barcode();
-        
+
         if (strlen($barcode) == 0) {
           $this->log_entry('Warning','items2html',"Entry $tel: No barcode returned from ppid $patronIdentifier");
         }
@@ -251,20 +254,35 @@ class Pulllist {
         $entry['content']['lenerbarcode']=$barcode;
 
         try {
-          $html = $this->twig->render($this->template, $entry);
-
-          //use request id as filename
-          $filename = $this->tobeprinted_dir.'/'.$entry['content']['requestId'].'.html';
-          if (file_exists($filename)) {
-            $this->log_entry('Warning','items2html',"File already exists: $filename");
+          //use request id in filenames
+          $html_filename = $this->tobeprinted_dir.'/'.$entry['content']['requestId'].'.html';
+          $pdf_filename = $this->pdf_dir.'/'.$entry['content']['requestId'].'.pdf';
+          $html = '';
+          if (file_exists($html_filename)) {
+            $this->log_entry('Warning','items2html',"html file already exists: $html_filename");
+            if (!file_exists($pdf_filename)) $html = file_get_contents($html_filename);
           }
           else {
-            $written = file_put_contents($filename,$html);
+            //generate html
+            $html = $this->twig->render($this->template, $entry);
+            $written = file_put_contents($html_filename,$html);
             if (!$written) $this->log_entry('Error','items2html',"File could not be written: $filename");
           }
+
+          if (file_exists($pdf_filename)) {
+            $this->log_entry('Warning','items2html',"pdf file already exists: $pdf_filename");
+          }
+          else {
+            //generate pdf from html
+            $mpdf = new \Mpdf\Mpdf();
+            $mpdf->WriteHTML($html);
+            //save pdf to $printer_as_dir
+            $mpdf->Output($pdf_filename);
+          }
+
         }
         catch (Exception $e) {
-          $this->log_entry('Error','items2html',"Twig exception: ".$e->getMessage());
+          $this->log_entry('Error','items2html',"Twig/Mpdf exception: ".$e->getMessage());
         }
       }
     }

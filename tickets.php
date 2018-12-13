@@ -8,10 +8,9 @@ $printed_dir = 'pulllist/tickets/printed';
 //$mpdf = new \Mpdf\Mpdf();
 
 
-function generateRows($dir) {
-  $tobeprinted_files = scandir($dir);
-  $template_file = 'pulllist/tablerow_template.html';
-  
+function generateRows($dir,$template_file) {
+  $files = scandir($dir);
+
   //default data
   $data = array(
   'date' => 'date',
@@ -23,10 +22,8 @@ function generateRows($dir) {
   'print' => 'print'
   );
 
-  foreach ($tobeprinted_files as $file) {
+  foreach ($files as $file) {
     if(strpos($file,"html")>0){
-
-
       //get data
       $doc = new DOMDocument();
       $doc->loadHTMLFile($dir.'/'.$file,LIBXML_NOWARNING | LIBXML_NOERROR);
@@ -58,7 +55,10 @@ function generateRows($dir) {
     <title>Loopbonnen</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/lijst.css">
-
+    <script type="text/javascript">
+      //function to move files from printed naar tobeprinted
+      
+    </script>
   </head>
   <body>
     <h3>Loopbonnen die nog afgedrukt moeten worden:</h3>
@@ -71,12 +71,11 @@ function generateRows($dir) {
           <div class="divTableHead">Barcode</div>
           <div class="divTableHead">Patron</div>
           <div class="divTableHead">Loopbon</div>
-          <div class="divTableHead">Print</div>
         </div>
       </div>
       <div class="divTableBody">
         <?php
-        generateRows($tobeprinted_dir);
+        generateRows($tobeprinted_dir,'pulllist/tablerow_template.html');
         ?>
       </div>
     </div>
@@ -96,7 +95,7 @@ function generateRows($dir) {
       </div>
       <div class="divTableBody">
         <?php
-        generateRows($printed_dir);
+        generateRows($printed_dir,'pulllist/tablerow_print_template.html');
         ?>
       </div>
     </div>

@@ -1,4 +1,16 @@
-2018-12-10 12:01:41 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/fa2644cc-a897-47df-9243-00647dddb014.html
-2018-12-10 12:01:43 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.html
-2018-12-10 12:02:46 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.html
-2018-12-10 12:02:49 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/fa2644cc-a897-47df-9243-00647dddb014.html
+2018-12-13 10:14:16 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.html
+2018-12-13 10:14:19 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/fa2644cc-a897-47df-9243-00647dddb014.html
+2018-12-13 10:16:24 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/fa2644cc-a897-47df-9243-00647dddb014.html
+2018-12-13 10:16:24 Error [items2html] Twig/Mpdf exception: Unable to create output file temp_printer/fa2644cc-a897-47df-9243-00647dddb014.pdf
+2018-12-13 10:16:27 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.html
+2018-12-13 10:16:27 Error [items2html] Twig/Mpdf exception: Unable to create output file temp_printer/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.pdf
+2018-12-13 10:18:16 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/fa2644cc-a897-47df-9243-00647dddb014.html
+2018-12-13 10:18:16 Error [items2html] Twig/Mpdf exception: Unable to create output file ./temp_printer/fa2644cc-a897-47df-9243-00647dddb014.pdf
+2018-12-13 10:18:18 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.html
+2018-12-13 10:18:18 Error [items2html] Twig/Mpdf exception: Unable to create output file ./temp_printer/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.pdf
+2018-12-13 10:23:15 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/fa2644cc-a897-47df-9243-00647dddb014.html
+2018-12-13 10:23:18 Warning [items2html] File already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.html
+2018-12-13 10:25:07 Warning [items2html] html file already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/fa2644cc-a897-47df-9243-00647dddb014.html
+2018-12-13 10:25:07 Warning [items2html] pdf file already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/temp_printer/fa2644cc-a897-47df-9243-00647dddb014.pdf
+2018-12-13 10:25:10 Warning [items2html] html file already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/tobeprinted/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.html
+2018-12-13 10:25:10 Warning [items2html] pdf file already exists: C:\xampp\htdocs\oclcAPIs\circulation\pulllist/tickets/temp_printer/0c6b6f9e-4863-4b05-bb14-7af9e625bad9.pdf
