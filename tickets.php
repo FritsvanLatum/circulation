@@ -18,6 +18,7 @@ function generateRows($dir,$template_file) {
   'title' => 'title',
   'barcode' => 'barcode',
   'patron' => 'patron',
+  'dir' => 'dir',
   'file' => 'file',
   'print' => 'print'
   );
@@ -32,7 +33,8 @@ function generateRows($dir,$template_file) {
       $data['title'] = $doc->getElementById('title')->textContent ;
       $data['barcode'] = $doc->getElementById('barcode')->textContent ;
       $data['patron'] = $doc->getElementById('patron')->textContent ;
-      $data['file'] = $dir.'/'.$file;
+      $data['dir'] = $dir;
+      $data['file'] = $file;
       //make row
       $loader = new Twig_Loader_Filesystem(__DIR__);
       $twig = new Twig_Environment($loader, array(
@@ -55,9 +57,20 @@ function generateRows($dir,$template_file) {
     <title>Loopbonnen</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/lijst.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript">
       //function to move files from printed naar tobeprinted
-      
+      function moveFile(fileName) {
+        $.ajax({
+          url: 'pulllist/mvFile.php?file='+fileName,
+          success: function (result) {
+            if (result.isOk == false) alert(result.message);
+          },
+          async: false
+        });
+
+        location.reload();
+      }
     </script>
   </head>
   <body>
@@ -99,6 +112,7 @@ function generateRows($dir,$template_file) {
         ?>
       </div>
     </div>
+
 
   </body>
 </html>

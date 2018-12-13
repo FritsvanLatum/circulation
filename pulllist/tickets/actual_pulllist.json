@@ -1,74 +1,8 @@
 {
     "id": "urn:oclc:circulation\/pulllist\/57439\/262638",
     "title": "Pull List",
-    "updated": "2018-12-13T09:25:01.114Z",
+    "updated": "2018-12-13T14:36:06.500Z",
     "entries": [
-        {
-            "title": "International nautural resources law \/",
-            "content": {
-                "bibliographicItem": {
-                    "oclcNumber": "1056168726",
-                    "title": "International nautural resources law \/",
-                    "author": "Fitzmaurice, Malgosia",
-                    "materialFormat": "BOOK",
-                    "publisher": "[S.l.] : Routledge,",
-                    "publicationYear": "2019",
-                    "language": "eng",
-                    "edition": null
-                },
-                "pieceDesignation": "hshs01",
-                "callNumber": {
-                    "shelvingScheme": null,
-                    "shelvingInformation": null,
-                    "itemParts": null,
-                    "prefixes": null,
-                    "suffixes": null,
-                    "description": "A 234 A 1"
-                },
-                "recordType": "SINGLE_PART",
-                "holdingInformation": null,
-                "numberOfPieces": 1,
-                "physicalDescription": null,
-                "cost": null,
-                "homeHoldingLocation": "NLVA",
-                "permanentShelvingLocation": {
-                    "element": [
-                        "Closed Stacks (for loan)"
-                    ]
-                },
-                "previousShelvingLocation": null,
-                "temporaryShelvingLocation": null,
-                "publicNotes": null,
-                "staffNotes": null,
-                "useRestrictions": null,
-                "requestDate": "2018-11-20T08:57:49.000-05:00",
-                "patronName": "Verweij, Joost",
-                "patronIdentifier": {
-                    "institution": "57439",
-                    "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "f8a362db-ad8a-4e0d-9764-108b683d7956"
-                },
-                "enumeration": null,
-                "freeText": null,
-                "requestId": "fa2644cc-a897-47df-9243-00647dddb014",
-                "pullReason": "HOLD",
-                "lastPrintedDate": "2018-11-27T07:26:23.000-05:00",
-                "forward": null,
-                "scheduleStartDate": null,
-                "scheduleEndDate": null,
-                "pickupLocationName": "Peace Palace",
-                "ownerInstitutionId": "57439",
-                "restrictedLocations": null,
-                "itemType": "LHR",
-                "requestSource": null
-            },
-            "updated": "2018-12-13T09:25:01.115Z",
-            "authors": [
-                {
-                    "name": "Fitzmaurice, Malgosia"
-                }
-            ]
-        },
         {
             "title": "Ethics as a weapon of war : militarism and morality in Israel \/",
             "content": {
@@ -133,10 +67,76 @@
                     "externalRequestInstitution": null
                 }
             },
-            "updated": "2018-12-13T09:25:01.115Z",
+            "updated": "2018-12-13T14:36:06.500Z",
             "authors": [
                 {
                     "name": "Eastwood, James,"
+                }
+            ]
+        },
+        {
+            "title": "International nautural resources law \/",
+            "content": {
+                "bibliographicItem": {
+                    "oclcNumber": "1056168726",
+                    "title": "International nautural resources law \/",
+                    "author": "Fitzmaurice, Malgosia",
+                    "materialFormat": "BOOK",
+                    "publisher": "[S.l.] : Routledge,",
+                    "publicationYear": "2019",
+                    "language": "eng",
+                    "edition": null
+                },
+                "pieceDesignation": "hshs01",
+                "callNumber": {
+                    "shelvingScheme": null,
+                    "shelvingInformation": null,
+                    "itemParts": null,
+                    "prefixes": null,
+                    "suffixes": null,
+                    "description": "A 234 A 1"
+                },
+                "recordType": "SINGLE_PART",
+                "holdingInformation": null,
+                "numberOfPieces": 1,
+                "physicalDescription": null,
+                "cost": null,
+                "homeHoldingLocation": "NLVA",
+                "permanentShelvingLocation": {
+                    "element": [
+                        "Closed Stacks (for loan)"
+                    ]
+                },
+                "previousShelvingLocation": null,
+                "temporaryShelvingLocation": null,
+                "publicNotes": null,
+                "staffNotes": null,
+                "useRestrictions": null,
+                "requestDate": "2018-11-20T08:57:49.000-05:00",
+                "patronName": "Verweij, Joost",
+                "patronIdentifier": {
+                    "institution": "57439",
+                    "relyingPartyId": "urn:oclc:platform:57439",
+                    "ppid": "f8a362db-ad8a-4e0d-9764-108b683d7956"
+                },
+                "enumeration": null,
+                "freeText": null,
+                "requestId": "fa2644cc-a897-47df-9243-00647dddb014",
+                "pullReason": "HOLD",
+                "lastPrintedDate": "2018-11-27T07:26:23.000-05:00",
+                "forward": null,
+                "scheduleStartDate": null,
+                "scheduleEndDate": null,
+                "pickupLocationName": "Peace Palace",
+                "ownerInstitutionId": "57439",
+                "restrictedLocations": null,
+                "itemType": "LHR",
+                "requestSource": null
+            },
+            "updated": "2018-12-13T14:36:06.501Z",
+            "authors": [
+                {
+                    "name": "Fitzmaurice, Malgosia"
                 }
             ]
         }
