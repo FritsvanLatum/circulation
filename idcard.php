@@ -7,7 +7,9 @@ $debug = FALSE;
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
 
-$template_file = './patron/idcard_template.html';
+$id_template_file = './patron/id_template.html';
+$card_template_file = './patron/idcard_template.html';
+$idcards_dir = './patron/idcards';
 $patron_barcode = null;
 $patron = new Patron($config_idm['wskey'], $config_idm['secret'], $config_idm['ppid']);
 
@@ -18,19 +20,6 @@ if (array_key_exists('patronBarcode',$_GET)) {
   $search = '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"], '.
   '"filter": "External_ID eq \"'.$patron_barcode.'\""}';
   $patron->search_patron($search);
-  
-  $msg = '';
-  //analyze result
-  if ($patron->search['totalResults'] == 0) {
-    //not found
-    $msg = "No patron found with barcode: $patron_barcode.";
-  }
-  else {
-    if ($patron->search['totalResults'] > 1){
-      //more patrons share the same barcode...
-    $msg = "Please note: more then one patron found with barcode: $patron_barcode.";
-    }
-  }
 }
 ?>
 <!DOCTYPE html>
@@ -54,25 +43,37 @@ if (array_key_exists('patronBarcode',$_GET)) {
       <button id='empty'>Empty form</button>
     </div>
     <div id="res" class="alert">
-    <?php if ($patron->search['totalResults'] > 0) {
-      if ($patron->search['totalResults'] > 1) echo "Please note: more then one patron found with barcode: $patron_barcode.";
-      $tel = 0;
-      foreach ($patron->search['Resources'] as $resource) {
-        $tel++;
-        //
-        $resource['teller'] = $tel;
+      <?php if ($patron->search['totalResults'] > 0) {
+        if ($patron->search['totalResults'] > 1) echo "Please note: more then one patron found with barcode: $patron_barcode.";
+        $tel = 0;
+        foreach ($patron->search['Resources'] as $resource) {
+          $tel++;
+          //
+          $resource['teller'] = $tel;
 
-        $loader = new Twig_Loader_Filesystem(__DIR__);
-        $twig = new Twig_Environment($loader, array(
-        //specify a cache directory only in a production setting
-        //'cache' => './compilation_cache',
-        ));
+          $loader = new Twig_Loader_Filesystem(__DIR__);
+          $twig = new Twig_Environment($loader, array(
+          //specify a cache directory only in a production setting
+          //'cache' => './compilation_cache',
+          ));
+          echo $twig->render($id_template_file, $resource);
 
-        echo $twig->render($template_file, $resource);
+          $idcard_html = $twig->render($card_template_file, $resource);
+          $html_filename = $idcards_dir.'/'.$resource['externalId'].'.html';
+          $pdf_filename = $idcards_dir.'/'.$resource['externalId'].'.pdf';
+          if (!file_exists($html_filename)) {
+            $written = file_put_contents($html_filename,$idcard_html);
+          }
+          if (!file_exists($pdf_filename)) {
+            //generate pdf from html
+            $mpdf = new \Mpdf\Mpdf();
+            $mpdf->WriteHTML($idcard_html);
+            $mpdf->Output($pdf_filename);
+          }
+        }
       }
-    }
-    else echo "No patron found with barcode: $patron_barcode.";
-    ?>
+      else echo "No patron found with barcode: $patron_barcode.";
+      ?>
     </div>
     <?php if ($debug) { ?>
     <div>
