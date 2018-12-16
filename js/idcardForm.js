@@ -69,7 +69,4 @@ editor.on('ready',function() {
     window.location.assign(emptyURL);
   });
 
-  $('#print').on('click',function() {
-    alert('Print!');
-  });
 });

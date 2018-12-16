@@ -19,8 +19,8 @@ foreach ($html_files as $html_file) {
     if (file_exists($pdf_file)) {
       //try to print when pdf_file exists
       $retval = 1;
-      //$last_line = exec('lp '.$pdf_file.' -d magazijn',$output, $retval);
-      $retval = 0;
+      $last_line = exec('lp '.$pdf_file.' -d magazijn',$output, $retval);
+      //$retval = 0;
       //move html file and delete pdf file if command succeeded
       if ($retval == 0) {
         $moved = rename($html_tobeprinted_dir.'/'.$html_file, $html_printed_dir.'/'.$html_file);
