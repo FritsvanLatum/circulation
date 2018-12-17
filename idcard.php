@@ -57,7 +57,8 @@ if (array_key_exists('patronBarcode',$_GET)) {
       <button id='submit'>Search patron</button>
       <button id='empty'>Empty form</button>
     </div>
-    <div id="res" class="alert">
+    <!--<div id="res" class="alert">-->
+    <div id="res">
       <?php if ($patron->search['totalResults'] > 0) {
         if ($patron->search['totalResults'] > 1) echo "Please note: more then one patron found with barcode: $patron_barcode.";
         $tel = 0;

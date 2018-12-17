@@ -22,7 +22,7 @@
         </tr>
         <tr>
           <td>Year/Vol./No.</td>
-          <td id="issue"> </td>
+          <td id="issue">{{content.holdingInformation.enumeration}} {{ content.holdingInformation.chronology }} </td>
         </tr>
         <tr>
           <td>Title</td>
@@ -30,7 +30,7 @@
         </tr>
         <tr>
           <td>Author</td>
-          <td id="author">{{ content.author }}</td>
+          <td id="author">{{ content.bibliographicItem.author }}</td>
         </tr>
         <tr>
           <td>Barcode item:</td>

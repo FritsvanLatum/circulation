@@ -1,0 +1,11 @@
+/** Paper sizes **/
+#patronData { 
+  margin: 20px;
+  border: 1px;
+  /*width: 86mm; 
+  height: 53mm*/ 
+}
+
+#name, #barcodeNo {
+  margin: 10px;
+}

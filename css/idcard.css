@@ -5,6 +5,11 @@ body {
   margin:20px;
   width: 50%;
 }
+
+#res {
+  margin:20px;
+}
+
 img { 
 	border-style:none; 
 	margin:0px 
@@ -33,7 +38,7 @@ div.minimalistBlack {
 }
 .divTable.minimalistBlack .labelC, .divTable.minimalistBlack .valueC {
   border: 1px solid #000000;
-  padding: 5px 4px;
+  padding: 5px 10px;
 }
 .divTable.minimalistBlack .divTableBody .divTableCell {
   font-size: 13px;
