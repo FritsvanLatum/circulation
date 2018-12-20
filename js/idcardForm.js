@@ -9,8 +9,8 @@ JSONEditor.plugins.selectize.enable = true;
 
 var editorProperties =
 {
-//  show_errors: 'change',  //interaction (default), change, always, never
-//  ajax:true,
+  //  show_errors: 'change',  //interaction (default), change, always, never
+  //  ajax:true,
   schema: schemaObj,
   //remove_empty_properties:true,
   required_by_default: true,
@@ -24,7 +24,7 @@ var editorProperties =
 var query = document.location.search;
 
 if (query.length > 0) {
-  
+
   query = query.substring(1);
   var parts = query.split('&');
   for (i = 0; i < parts.length; i++) {
@@ -41,24 +41,28 @@ editor.on('ready',function() {
 
   // Hook up the submit button to log to the console
   $('#submit').on('click',function() {
-    //empty feedback div
-    $('#res').html("");
 
-    //Validate
-    var errors = editor.validate();
+    barcode = editor.getEditor('root.patronBarcode').getValue();
+    if (barcode.length > 0) {
+      //empty feedback div
+      $('#res').html("");
 
-    if(errors.length) {
-      //collect and show error messages
-      if (debug) console.log(errors);
-      msg = '<p>Your request has NOT been sent. Correct the following fields.</p>';
-      errors.forEach(function(err) {
-        msg += '<p>' + editor.getEditor(err.path).schema.title + ': ' + err.message + '</p>';
-      });
-      $('#res').html(msg);
-    }
-    else {
-      var barcodeURL = document.location.origin + document.location.pathname+'?patronBarcode='+editor.getEditor('root.patronBarcode').getValue();
-      window.location.assign(barcodeURL);
+      //Validate
+      var errors = editor.validate();
+
+      if(errors.length) {
+        //collect and show error messages
+        if (debug) console.log(errors);
+        msg = '<p>Your request has NOT been sent. Correct the following fields.</p>';
+        errors.forEach(function(err) {
+          msg += '<p>' + editor.getEditor(err.path).schema.title + ': ' + err.message + '</p>';
+        });
+        $('#res').html(msg);
+      }
+      else {
+        var barcodeURL = document.location.origin + document.location.pathname+'?patronBarcode='+barcode;
+        window.location.assign(barcodeURL);
+      }
     }
   });
 

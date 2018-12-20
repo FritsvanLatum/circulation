@@ -6,19 +6,32 @@
     <!-- Load paper.css for happy printing
     <link rel="stylesheet" href="paper.css">
     <style>@page { size: creditcard }</style> -->
-    <link rel="stylesheet" href="idcard.css">
+    <style>
+      #patronData {
+        margin: 2px;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 5px;
+        width: 84mm;
+        height: 50mm;
+      }
+
+      #name, #barcodeNo {
+        margin: 10px;
+      }
+    </style>
   </head>
-  <body class="creditcard">
+  <body>
     <div id="patronData">
       <div id="name">
         {{name.givenName}} {{name.familyName}}
       </div>
       <div id="barcode">
-        <barcode code="{{externalId}}" type="C39" height="0.99" text="1" />
+        <barcode code="{{externalId}}" type="C39"/> <!-- height="0.99" text="1" />-->
+        </div>
+        <div id="barcodeNo">
+          {{externalId}}
+        </div>
       </div>
-      <div id="barcodeNo">
-        {{externalId}}
-      </div>
-    </div>
-  </body>
-</html>
+    </body>
+  </html>
