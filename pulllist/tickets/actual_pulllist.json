@@ -1,29 +1,29 @@
 {
     "id": "urn:oclc:circulation\/pulllist\/57439\/262638",
     "title": "Pull List",
-    "updated": "2018-12-17T14:17:29.314Z",
+    "updated": "2018-12-20T11:17:07.868Z",
     "entries": [
         {
-            "title": "Sport and politics : the Olympics and the Los Angeles games \/",
+            "title": "International nautural resources law \/",
             "content": {
                 "bibliographicItem": {
-                    "oclcNumber": "16085564",
-                    "title": "Sport and politics : the Olympics and the Los Angeles games \/",
-                    "author": "Shaikin, Bill.",
+                    "oclcNumber": "1056168726",
+                    "title": "International nautural resources law \/",
+                    "author": "Fitzmaurice, Malgosia",
                     "materialFormat": "BOOK",
-                    "publisher": "New York : Praeger,",
-                    "publicationYear": "1988",
+                    "publisher": "[S.l.] : Routledge,",
+                    "publicationYear": "2019",
                     "language": "eng",
                     "edition": null
                 },
-                "pieceDesignation": "09000005652731",
+                "pieceDesignation": "hshs01",
                 "callNumber": {
                     "shelvingScheme": null,
                     "shelvingInformation": null,
                     "itemParts": null,
                     "prefixes": null,
                     "suffixes": null,
-                    "description": "263 C 27"
+                    "description": "A 234 A 1"
                 },
                 "recordType": "SINGLE_PART",
                 "holdingInformation": null,
@@ -41,37 +41,31 @@
                 "publicNotes": null,
                 "staffNotes": null,
                 "useRestrictions": null,
-                "requestDate": "2018-12-17T08:58:34.000-05:00",
-                "patronName": "Streefland, Hans",
+                "requestDate": "2018-11-20T08:57:49.000-05:00",
+                "patronName": "Verweij, Joost",
                 "patronIdentifier": {
                     "institution": "57439",
                     "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "62450906-d849-4d91-9a12-4a5e126845fd"
+                    "ppid": "f8a362db-ad8a-4e0d-9764-108b683d7956"
                 },
                 "enumeration": null,
                 "freeText": null,
-                "requestId": "db8fb176-6dee-4ac7-a5ca-bd652535426f",
+                "requestId": "fa2644cc-a897-47df-9243-00647dddb014",
                 "pullReason": "HOLD",
-                "lastPrintedDate": null,
+                "lastPrintedDate": "2018-12-17T06:09:15.000-05:00",
                 "forward": null,
                 "scheduleStartDate": null,
                 "scheduleEndDate": null,
                 "pickupLocationName": "Peace Palace",
                 "ownerInstitutionId": "57439",
-                "restrictedLocations": [
-                    {
-                        "institution": "57439",
-                        "holdingLocation": "NLVA",
-                        "shelvingLocation": "Closed Stacks (for loan)"
-                    }
-                ],
+                "restrictedLocations": null,
                 "itemType": "LHR",
                 "requestSource": null
             },
-            "updated": "2018-12-17T14:17:29.315Z",
+            "updated": "2018-12-20T11:17:07.868Z",
             "authors": [
                 {
-                    "name": "Shaikin, Bill."
+                    "name": "Fitzmaurice, Malgosia"
                 }
             ]
         },
@@ -139,7 +133,7 @@
                     "externalRequestInstitution": null
                 }
             },
-            "updated": "2018-12-17T14:17:29.315Z",
+            "updated": "2018-12-20T11:17:07.869Z",
             "authors": [
                 {
                     "name": "Eastwood, James,"
@@ -147,32 +141,32 @@
             ]
         },
         {
-            "title": "The Journal of air law.",
+            "title": "Treaty series \/",
             "content": {
                 "bibliographicItem": {
-                    "oclcNumber": "2251713",
-                    "title": "The Journal of air law.",
-                    "author": "Air Law Institute (Chicago, Ill.)",
+                    "oclcNumber": "149853088",
+                    "title": "Treaty series \/",
+                    "author": "Secretary of State for Foreign Affairs.",
                     "materialFormat": "PERIODICAL",
-                    "publisher": "Chicago : Northwestern University Press.",
-                    "publicationYear": "1930",
+                    "publisher": "London : Her Majesty's Stationery Office (H.M.S.O.),",
+                    "publicationYear": "1892",
                     "language": "eng",
                     "edition": null
                 },
-                "pieceDesignation": "09000003014942",
+                "pieceDesignation": "09000000397860",
                 "callNumber": {
                     "shelvingScheme": null,
                     "shelvingInformation": null,
                     "itemParts": null,
                     "prefixes": null,
                     "suffixes": null,
-                    "description": "P 1548"
+                    "description": "X 185"
                 },
                 "recordType": "SERIAL",
                 "holdingInformation": {
                     "captionId": null,
-                    "enumeration": "* 08",
-                    "chronology": "(year) 1937",
+                    "enumeration": "* 2007",
+                    "chronology": null,
                     "description": null
                 },
                 "numberOfPieces": 1,
@@ -189,16 +183,16 @@
                 "publicNotes": null,
                 "staffNotes": null,
                 "useRestrictions": null,
-                "requestDate": "2018-12-17T09:10:15.000-05:00",
-                "patronName": "Training3",
+                "requestDate": "2018-12-20T05:08:44.000-05:00",
+                "patronName": "van Latum, Frits",
                 "patronIdentifier": {
                     "institution": "57439",
                     "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "e92ca6ef-2f47-4ace-afb6-ce418bf2c8e8"
+                    "ppid": "b420b91d-b3d9-4501-9ccd-99ed44984908"
                 },
-                "enumeration": "* 08",
+                "enumeration": "* 2007",
                 "freeText": null,
-                "requestId": "487c32cc-eb75-4976-b100-a42b4aaba001",
+                "requestId": "9ebb7290-954f-44a5-a7d8-22642794a83d",
                 "pullReason": "HOLD",
                 "lastPrintedDate": null,
                 "forward": null,
@@ -206,410 +200,20 @@
                 "scheduleEndDate": null,
                 "pickupLocationName": "Peace Palace",
                 "ownerInstitutionId": "57439",
-                "restrictedLocations": null,
+                "restrictedLocations": [
+                    {
+                        "institution": "57439",
+                        "holdingLocation": "NLVA",
+                        "shelvingLocation": "Closed Stacks (reference only)"
+                    }
+                ],
                 "itemType": "LHR",
                 "requestSource": null
             },
-            "updated": "2018-12-17T14:17:29.315Z",
+            "updated": "2018-12-20T11:17:07.869Z",
             "authors": [
                 {
-                    "name": "Air Law Institute (Chicago, Ill.)"
-                }
-            ]
-        },
-        {
-            "title": "Der Rechtsstatus von unbemannten ozeanographischen Messplattformen im internationalen Seerecht : am Beispiel von Driftern und Glidern \/",
-            "content": {
-                "bibliographicItem": {
-                    "oclcNumber": "760693404",
-                    "title": "Der Rechtsstatus von unbemannten ozeanographischen Messplattformen im internationalen Seerecht : am Beispiel von Driftern und Glidern \/",
-                    "author": "Bork, Katharina.",
-                    "materialFormat": "BOOK",
-                    "publisher": "Baden-Baden : Nomos,",
-                    "publicationYear": "2011",
-                    "language": "ger",
-                    "edition": null
-                },
-                "pieceDesignation": "09000006154422",
-                "callNumber": {
-                    "shelvingScheme": null,
-                    "shelvingInformation": null,
-                    "itemParts": null,
-                    "prefixes": null,
-                    "suffixes": null,
-                    "description": "S 2608 d.2"
-                },
-                "recordType": "SINGLE_PART",
-                "holdingInformation": null,
-                "numberOfPieces": 1,
-                "physicalDescription": null,
-                "cost": null,
-                "homeHoldingLocation": "NLVA",
-                "permanentShelvingLocation": {
-                    "element": [
-                        "Closed Stacks (for loan)"
-                    ]
-                },
-                "previousShelvingLocation": null,
-                "temporaryShelvingLocation": null,
-                "publicNotes": null,
-                "staffNotes": null,
-                "useRestrictions": null,
-                "requestDate": "2018-12-17T08:22:52.000-05:00",
-                "patronName": "Streefland, Hans",
-                "patronIdentifier": {
-                    "institution": "57439",
-                    "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "62450906-d849-4d91-9a12-4a5e126845fd"
-                },
-                "enumeration": null,
-                "freeText": null,
-                "requestId": "7ebfe1a7-7bac-4aa5-9b02-5945fa336a66",
-                "pullReason": "HOLD",
-                "lastPrintedDate": null,
-                "forward": null,
-                "scheduleStartDate": null,
-                "scheduleEndDate": null,
-                "pickupLocationName": "Peace Palace",
-                "ownerInstitutionId": "57439",
-                "restrictedLocations": null,
-                "itemType": "LHR",
-                "requestSource": null
-            },
-            "updated": "2018-12-17T14:17:29.315Z",
-            "authors": [
-                {
-                    "name": "Bork, Katharina."
-                }
-            ]
-        },
-        {
-            "title": "Journal du droit international.",
-            "content": {
-                "bibliographicItem": {
-                    "oclcNumber": "781163089",
-                    "title": "Journal du droit international.",
-                    "author": null,
-                    "materialFormat": "PERIODICAL",
-                    "publisher": "Paris : Marchal & Godde [etc.],",
-                    "publicationYear": "1915",
-                    "language": "fre",
-                    "edition": null
-                },
-                "pieceDesignation": "09000006842174",
-                "callNumber": {
-                    "shelvingScheme": null,
-                    "shelvingInformation": null,
-                    "itemParts": null,
-                    "prefixes": null,
-                    "suffixes": null,
-                    "description": "P 60"
-                },
-                "recordType": "SERIAL",
-                "holdingInformation": {
-                    "captionId": null,
-                    "enumeration": "* 145, * 01 LZ",
-                    "chronology": "(year) 2018",
-                    "description": null
-                },
-                "numberOfPieces": 1,
-                "physicalDescription": null,
-                "cost": null,
-                "homeHoldingLocation": "NLVA",
-                "permanentShelvingLocation": {
-                    "element": [
-                        "Closed Stacks (reference only)"
-                    ]
-                },
-                "previousShelvingLocation": null,
-                "temporaryShelvingLocation": null,
-                "publicNotes": null,
-                "staffNotes": null,
-                "useRestrictions": null,
-                "requestDate": "2018-12-17T08:51:48.000-05:00",
-                "patronName": "Streefland, Hans",
-                "patronIdentifier": {
-                    "institution": "57439",
-                    "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "62450906-d849-4d91-9a12-4a5e126845fd"
-                },
-                "enumeration": "* 145, * 01 LZ",
-                "freeText": null,
-                "requestId": "0531b68e-5c03-47dc-ad41-0f7200833755",
-                "pullReason": "HOLD",
-                "lastPrintedDate": null,
-                "forward": null,
-                "scheduleStartDate": null,
-                "scheduleEndDate": null,
-                "pickupLocationName": "Peace Palace",
-                "ownerInstitutionId": "57439",
-                "restrictedLocations": null,
-                "itemType": "LHR",
-                "requestSource": null
-            },
-            "updated": "2018-12-17T14:17:29.315Z"
-        },
-        {
-            "title": "Climate change law \/",
-            "content": {
-                "bibliographicItem": {
-                    "oclcNumber": "944463457",
-                    "title": "Climate change law \/",
-                    "author": "Farber, Daniel A.,",
-                    "materialFormat": "BOOK",
-                    "publisher": "Cheltenham, UK : Edward Elgar Publishing,",
-                    "publicationYear": "2016",
-                    "language": "eng",
-                    "edition": null
-                },
-                "pieceDesignation": "09000006932405",
-                "callNumber": {
-                    "shelvingScheme": null,
-                    "shelvingInformation": null,
-                    "itemParts": null,
-                    "prefixes": null,
-                    "suffixes": null,
-                    "description": "X 6414"
-                },
-                "recordType": "SINGLE_PART",
-                "holdingInformation": null,
-                "numberOfPieces": 1,
-                "physicalDescription": null,
-                "cost": null,
-                "homeHoldingLocation": "NLVA",
-                "permanentShelvingLocation": {
-                    "element": [
-                        "Closed Stacks (for loan)"
-                    ]
-                },
-                "previousShelvingLocation": null,
-                "temporaryShelvingLocation": null,
-                "publicNotes": null,
-                "staffNotes": null,
-                "useRestrictions": null,
-                "requestDate": "2018-12-17T08:58:09.000-05:00",
-                "patronName": "Training1",
-                "patronIdentifier": {
-                    "institution": "57439",
-                    "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "1ebadcfb-cf05-4dd8-8f21-f3f8c7148b79"
-                },
-                "enumeration": null,
-                "freeText": null,
-                "requestId": "97edb974-863a-4f5e-b504-70c60d3f06a1",
-                "pullReason": "HOLD",
-                "lastPrintedDate": null,
-                "forward": null,
-                "scheduleStartDate": null,
-                "scheduleEndDate": null,
-                "pickupLocationName": "Peace Palace",
-                "ownerInstitutionId": "57439",
-                "restrictedLocations": null,
-                "itemType": "LHR",
-                "requestSource": null
-            },
-            "updated": "2018-12-17T14:17:29.315Z",
-            "authors": [
-                {
-                    "name": "Farber, Daniel A.,"
-                }
-            ]
-        },
-        {
-            "title": "Research handbook on money laundering \/",
-            "content": {
-                "bibliographicItem": {
-                    "oclcNumber": "839315348",
-                    "title": "Research handbook on money laundering \/",
-                    "author": "Unger, B.",
-                    "materialFormat": "BOOK",
-                    "publisher": null,
-                    "publicationYear": "2013",
-                    "language": "eng",
-                    "edition": null
-                },
-                "pieceDesignation": "09000006557624",
-                "callNumber": {
-                    "shelvingScheme": null,
-                    "shelvingInformation": null,
-                    "itemParts": null,
-                    "prefixes": null,
-                    "suffixes": null,
-                    "description": "508 E 10"
-                },
-                "recordType": "SINGLE_PART",
-                "holdingInformation": null,
-                "numberOfPieces": 1,
-                "physicalDescription": null,
-                "cost": null,
-                "homeHoldingLocation": "NLVA",
-                "permanentShelvingLocation": {
-                    "element": [
-                        "Closed Stacks (for loan)"
-                    ]
-                },
-                "previousShelvingLocation": null,
-                "temporaryShelvingLocation": null,
-                "publicNotes": null,
-                "staffNotes": null,
-                "useRestrictions": null,
-                "requestDate": "2018-12-17T08:55:23.000-05:00",
-                "patronName": "Training1",
-                "patronIdentifier": {
-                    "institution": "57439",
-                    "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "1ebadcfb-cf05-4dd8-8f21-f3f8c7148b79"
-                },
-                "enumeration": null,
-                "freeText": null,
-                "requestId": "f08ee168-5232-4679-a9ba-45b30b70b053",
-                "pullReason": "HOLD",
-                "lastPrintedDate": null,
-                "forward": null,
-                "scheduleStartDate": null,
-                "scheduleEndDate": null,
-                "pickupLocationName": "Peace Palace",
-                "ownerInstitutionId": "57439",
-                "restrictedLocations": null,
-                "itemType": "LHR",
-                "requestSource": null
-            },
-            "updated": "2018-12-17T14:17:29.315Z",
-            "authors": [
-                {
-                    "name": "Unger, B."
-                }
-            ]
-        },
-        {
-            "title": "Global climate change and U.S. law \/",
-            "content": {
-                "bibliographicItem": {
-                    "oclcNumber": "875554957",
-                    "title": "Global climate change and U.S. law \/",
-                    "author": "Gerrard, Michael,",
-                    "materialFormat": "BOOK",
-                    "publisher": "Chicago, Illinois : American Bar Association, Section of Environment, Energy, and Resources,",
-                    "publicationYear": "2014",
-                    "language": "eng",
-                    "edition": "Second edition."
-                },
-                "pieceDesignation": "09000006404793",
-                "callNumber": {
-                    "shelvingScheme": null,
-                    "shelvingInformation": null,
-                    "itemParts": null,
-                    "prefixes": null,
-                    "suffixes": null,
-                    "description": "480 A 23"
-                },
-                "recordType": "SINGLE_PART",
-                "holdingInformation": null,
-                "numberOfPieces": 1,
-                "physicalDescription": null,
-                "cost": null,
-                "homeHoldingLocation": "NLVA",
-                "permanentShelvingLocation": {
-                    "element": [
-                        "Closed Stacks (for loan)"
-                    ]
-                },
-                "previousShelvingLocation": null,
-                "temporaryShelvingLocation": null,
-                "publicNotes": null,
-                "staffNotes": null,
-                "useRestrictions": null,
-                "requestDate": "2018-12-17T08:28:22.000-05:00",
-                "patronName": "Streefland, Hans",
-                "patronIdentifier": {
-                    "institution": "57439",
-                    "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "62450906-d849-4d91-9a12-4a5e126845fd"
-                },
-                "enumeration": null,
-                "freeText": null,
-                "requestId": "db10b56c-d3c3-4d64-bb7c-a495f1626d68",
-                "pullReason": "HOLD",
-                "lastPrintedDate": null,
-                "forward": null,
-                "scheduleStartDate": null,
-                "scheduleEndDate": null,
-                "pickupLocationName": "Peace Palace",
-                "ownerInstitutionId": "57439",
-                "restrictedLocations": null,
-                "itemType": "LHR",
-                "requestSource": null
-            },
-            "updated": "2018-12-17T14:17:29.315Z",
-            "authors": [
-                {
-                    "name": "Gerrard, Michael,"
-                }
-            ]
-        },
-        {
-            "title": "International nautural resources law \/",
-            "content": {
-                "bibliographicItem": {
-                    "oclcNumber": "1056168726",
-                    "title": "International nautural resources law \/",
-                    "author": "Fitzmaurice, Malgosia",
-                    "materialFormat": "BOOK",
-                    "publisher": "[S.l.] : Routledge,",
-                    "publicationYear": "2019",
-                    "language": "eng",
-                    "edition": null
-                },
-                "pieceDesignation": "hshs01",
-                "callNumber": {
-                    "shelvingScheme": null,
-                    "shelvingInformation": null,
-                    "itemParts": null,
-                    "prefixes": null,
-                    "suffixes": null,
-                    "description": "A 234 A 1"
-                },
-                "recordType": "SINGLE_PART",
-                "holdingInformation": null,
-                "numberOfPieces": 1,
-                "physicalDescription": null,
-                "cost": null,
-                "homeHoldingLocation": "NLVA",
-                "permanentShelvingLocation": {
-                    "element": [
-                        "Closed Stacks (for loan)"
-                    ]
-                },
-                "previousShelvingLocation": null,
-                "temporaryShelvingLocation": null,
-                "publicNotes": null,
-                "staffNotes": null,
-                "useRestrictions": null,
-                "requestDate": "2018-11-20T08:57:49.000-05:00",
-                "patronName": "Verweij, Joost",
-                "patronIdentifier": {
-                    "institution": "57439",
-                    "relyingPartyId": "urn:oclc:platform:57439",
-                    "ppid": "f8a362db-ad8a-4e0d-9764-108b683d7956"
-                },
-                "enumeration": null,
-                "freeText": null,
-                "requestId": "fa2644cc-a897-47df-9243-00647dddb014",
-                "pullReason": "HOLD",
-                "lastPrintedDate": "2018-12-17T06:09:15.000-05:00",
-                "forward": null,
-                "scheduleStartDate": null,
-                "scheduleEndDate": null,
-                "pickupLocationName": "Peace Palace",
-                "ownerInstitutionId": "57439",
-                "restrictedLocations": null,
-                "itemType": "LHR",
-                "requestSource": null
-            },
-            "updated": "2018-12-17T14:17:29.315Z",
-            "authors": [
-                {
-                    "name": "Fitzmaurice, Malgosia"
+                    "name": "Secretary of State for Foreign Affairs."
                 }
             ]
         }
@@ -621,7 +225,7 @@
                 "xmlns:os": "http:\/\/a9.com\/-\/spec\/opensearch\/1.1\/"
             },
             "children": [
-                "9"
+                "3"
             ]
         },
         {

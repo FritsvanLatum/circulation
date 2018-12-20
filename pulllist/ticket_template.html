@@ -6,10 +6,14 @@
   </head>
   <body>
 <p>&nbsp;</p>
-    <h1>.... TEST TEST TEST .......</h1>
-    <!--<h1>PLEASE DO NOT REMOVE THIS FORM FROM THE BOOK !</h1>-->
+    <!--<h1>.... TEST TEST TEST .......</h1>-->
+    <h1>PLEASE DO NOT REMOVE THIS FORM FROM THE BOOK !</h1>
     <table>
       <thead>
+        <tr>
+          <td><b> -- WMS -- </b></td>
+          <td></td>
+        </tr>
       </thead>
       <tbody>
         <tr>
@@ -34,14 +38,14 @@
         </tr>
         <tr>
           <td>Barcode item:</td>
-          <td><barcode code="{{ content.pieceDesignation }}" type="C39" height="0.99" text="1" />  ( {{ content.pieceDesignation }} )</td>
+          <td>{{ content.pieceDesignation }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td><td></td>
         </tr>
         <tr>
           <td>Barcode lener:</td>
-          <td><barcode code="{{ content.lenerbarcode }}" type="C39" height="0.99" text="1" /> ( {{ content.lenerbarcode }} ) Naam:  {{ content.patronName }}</td>
+          <td>{{ content.patronName }} ( {{ content.lenerbarcode }} )</td>
         </tr>
         <tr>
           <td>&nbsp;</td><td></td>
