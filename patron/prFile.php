@@ -1,24 +1,33 @@
 <?php
-
+$bonnenprinter = 'balie';
 $pdf_file = $_GET['file'];
-
-$msg = "";
 
 if (file_exists($pdf_file)) {
   //try to print when pdf_file exists
+  $cmd = "lp $pdf_file -d $bonnenprinter";
+  $output = array();
   $retval = 1;
-  $last_line = exec('lp '.$pdf_file.' -d balie',$output, $retval);
-  //$retval = 0;
-  //move html file and delete pdf file if command succeeded
-  $msg = "$retval - $output -- $last_line\n"
+  $last_line = exec($cmd, $output, $retval);
+
   if ($retval == 0) {
+    //print succeeded now delete the file
     $deleted = unlink($pdf_file);
+    if ($deleted) {
+      echo "Print command '$cmd' succeeded, file deleted.";
+    }
+    else {
+      echo "Print command '$cmd' succeeded, file NOT deleted.";
+    }
+    exit(0);
+  }
+  else {
+    header('HTTP/1.1 500 Internal Server Error');
+    exit("Print command '$cmd' failed: ($retval) ".implode(' - ',$output));
   }
 }
 else {
-  $msg = "File $pdf_file not found.\n"
+  header('HTTP/1.1 500 Internal Server Error');
+  exit("File $pdf_file not found.(From: ".__DIR__.")");
 }
-
-echo $msg;
 
 ?>

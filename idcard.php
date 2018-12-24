@@ -28,24 +28,24 @@ if (array_key_exists('patronBarcode',$_GET)) {
     <title>ID cards</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" id="theme_stylesheet" href="css/bootstrap-combined.min.css">
-    <link rel="stylesheet" id="icon_stylesheet" href="font-awesome.css">
+    <link rel="stylesheet" id="icon_stylesheet" href="css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="css/idcard.css">
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
     <script type="text/javascript" src="schema/idcardSchema.js"></script>
     <script type="text/javascript">
-      //function to move files from printed naar tobeprinted
-      function printFile(fileName) {
-        $.ajax({
-          url: 'patron/prFile.php?file='+fileName,
-          success: function (result) {
-            if (result.isOk == false) alert(result.message);
-          },
-          async: false
-        });
 
-        location.reload();
+      function printFile(fileName) {
+        var jqxhr = $.ajax({
+          url: 'patron/prFile.php?file='+fileName,
+          //async: false
+        }).done(function(data, textStatus, jqXHR) {
+          console.log(textStatus + ' - ' + data);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown ) {
+          console.log(textStatus + ' - ' + errorThrown+ ' - ' + jqXHR.responseText);
+        });
       }
     </script>
 
