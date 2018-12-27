@@ -11,7 +11,8 @@ if (file_exists($pdf_file)) {
 
   if ($retval == 0) {
     //print succeeded now delete the file
-    $deleted = unlink($pdf_file);
+    $deleted = false;
+    //$deleted = unlink($pdf_file);
     if ($deleted) {
       echo "Print command '$cmd' succeeded, file deleted.";
     }
