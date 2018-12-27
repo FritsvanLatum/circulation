@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
 $html_tobeprinted_dir = __DIR__.'/pulllist/tickets/tobeprinted';
