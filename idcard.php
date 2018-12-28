@@ -95,7 +95,7 @@ if (array_key_exists('patronBarcode',$_GET)) {
             'margin_top' => 15,
             'margin_bottom' => 1
             ]);
-            $mpdf->WriteHTML($idcard_html);
+            $mpdf->WriteHTML('<img src="'.$image_url.'" width="80mm" height="50mm" />');
 
             $mpdf->AddPageByArray(array(
             'margin_left' => 1,
@@ -103,7 +103,7 @@ if (array_key_exists('patronBarcode',$_GET)) {
             'margin_top' => 1,
             'margin_bottom' => 1
             ));
-            $mpdf->WriteHTML('<img src="'.$image_url.'" width="80mm" height="50mm" />');
+            $mpdf->WriteHTML($idcard_html);
             $mpdf->Output($pdf_filename);
           }
         }
