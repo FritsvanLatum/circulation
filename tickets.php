@@ -61,18 +61,19 @@ function generateRows($dir,$template_file) {
     <script type="text/javascript">
       //function to move files from printed naar tobeprinted
 
-      /*      function printFile(fileName) {
-      var jqxhr = $.ajax({
-      url: 'patron/prFile.php?file='+fileName,
-      //async: false
-      }).done(function(data, textStatus, jqXHR) {
-      console.log(textStatus + ' - ' + data);
-      })
-      .fail(function(jqXHR, textStatus, errorThrown ) {
-      console.log(textStatus + ' - ' + errorThrown+ ' - ' + jqXHR.responseText);
-      });
-      }*/
-      function moveFile(fileName) {
+      function printFile(fileName) {
+        var jqxhr = $.ajax({
+          url: 'pulllist/prFile.php?file='+fileName,
+          //async: false
+        }).done(function(data, textStatus, jqXHR) {
+          console.log(textStatus + ' - ' + data);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown ) {
+          console.log(textStatus + ' - ' + errorThrown+ ' - ' + jqXHR.responseText);
+        });
+      }
+
+/*      function moveFile(fileName) {
         var jqxhr = $.ajax({
           url: 'pulllist/mvFile.php?file='+fileName,
           //async: false
@@ -84,7 +85,7 @@ function generateRows($dir,$template_file) {
         });
 
         location.reload();
-      }
+      }*/
     </script>
   </head>
   <body>
