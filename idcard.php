@@ -87,15 +87,14 @@ if (array_key_exists('patronBarcode',$_GET)) {
 
           if (!file_exists($pdf_filename)) {
             //generate pdf from html
-            $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8',
-            'format' => [85, 54]
-            ]);
-            $mpdf->AddPageByArray(array(
+            $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => [85, 54],
             'margin_left' => 8,
             'margin_right' => 1,
             'margin_top' => 15,
             'margin_bottom' => 1
-            ));
+            ]);
             $mpdf->WriteHTML($idcard_html);
 
             $mpdf->AddPageByArray(array(
