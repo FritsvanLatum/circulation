@@ -1,10 +1,10 @@
 <?php
-$bonnenprinter = 'balie';
+$printer = 'balie';
 $pdf_file = $_GET['file'];
 
 if (file_exists($pdf_file)) {
   //try to print when pdf_file exists
-  $cmd = "lp $pdf_file -d $bonnenprinter";
+  $cmd = "lp -d $printer $pdf_file";
   $output = array();
   $retval = 1;
   $last_line = exec($cmd, $output, $retval);

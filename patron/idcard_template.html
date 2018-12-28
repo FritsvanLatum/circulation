@@ -3,35 +3,40 @@
   <head>
     <meta charset="utf-8">
     <title>ID Card</title>
-    <!-- Load paper.css for happy printing
-    <link rel="stylesheet" href="paper.css">
-    <style>@page { size: creditcard }</style> -->
     <style>
-      #patronData {
-        margin: 2px;
-        border-style: solid;
-        border-width: 1px;
-        border-radius: 5px;
-        width: 84mm;
-        height: 50mm;
+      body, div {
+        padding:0;
+        margin:0;
+      }
+      #card {
+      margin-top: 100px;
+      margin-left: 10px;
+      padding: 0px;
+      /*border-style: solid;
+      border-width: 1px;
+      border-radius: 5px;*/
+      }
+      #name, #barcode, #barcodeNo {
+        margin: 5px;
+        padding: 0;
       }
 
-      #name, #barcodeNo {
-        margin: 10px;
-      }
     </style>
   </head>
   <body>
-    <div id="patronData">
+    <div id="card">
       <div id="name">
         {{name.givenName}} {{name.familyName}}
       </div>
       <div id="barcode">
-        <barcode code="{{externalId}}" type="C39"/> <!-- height="0.99" text="1" />-->
-        </div>
-        <div id="barcodeNo">
-          {{externalId}}
-        </div>
+        <barcode code="{{externalId}}" type="C39"/> 
       </div>
-    </body>
-  </html>
+      <div id="barcodeNo">
+        {{externalId}}
+      </div>
+    </div>
+    <div id="logo">
+      <img src="{{image}}" width="80mm" height="50mm" />
+    </div>
+  </body>
+</html>
