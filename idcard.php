@@ -7,7 +7,7 @@ $debug = FALSE;
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
 $this_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http").
-             "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+"://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $this_parts = explode('/',$this_url);
 $last = array_pop($this_parts);
 $image_url = implode('/',$this_parts).'/patron/logo.jpg';
@@ -71,7 +71,6 @@ if (array_key_exists('patronBarcode',$_GET)) {
           $tel++;
           //
           $resource['teller'] = $tel;
-          $resource['image'] = $image_url;
           $loader = new Twig_Loader_Filesystem(__DIR__);
           $twig = new Twig_Environment($loader, array(
           //specify a cache directory only in a production setting
@@ -85,16 +84,27 @@ if (array_key_exists('patronBarcode',$_GET)) {
           if (!file_exists($html_filename)) {
             $written = file_put_contents($html_filename,$idcard_html);
           }
+
           if (!file_exists($pdf_filename)) {
             //generate pdf from html
-            $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 
-                                    'format' => [85, 54],
-                                    'margin_left' => 1,
-                                    'margin_right' => 1, 
-                                    'margin_top' => 1, 
-                                    'margin_bottom' => 1  
-                                   ]);
+            $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8',
+            'format' => [85, 54]
+            ]);
+            $mpdf->AddPageByArray(array(
+            'margin_left' => 8,
+            'margin_right' => 1,
+            'margin_top' => 15,
+            'margin_bottom' => 1
+            ));
             $mpdf->WriteHTML($idcard_html);
+
+            $mpdf->AddPageByArray(array(
+            'margin_left' => 1,
+            'margin_right' => 1,
+            'margin_top' => 1,
+            'margin_bottom' => 1
+            ));
+            $mpdf->WriteHTML('<img src="'.$image_url.'" width="80mm" height="50mm" />');
             $mpdf->Output($pdf_filename);
           }
         }
