@@ -46,3 +46,10 @@ div.paleBlueRows {
 .divTableHeading { display: table-header-group;}
 .divTableFoot { display: table-footer-group;}
 .divTableBody { display: table-row-group;}
+
+img.logo {
+    position: relative;
+    margin-top: -30px;
+    margin-left: 240px;
+    border: solid 20px #FFFFFF; 
+}
