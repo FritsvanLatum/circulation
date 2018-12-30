@@ -121,7 +121,7 @@ class Pulllist {
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
-  private function log_entry($t,$c,$m) {
+  public function log_entry($t,$c,$m) {
     $this->errors[] = date("Y-m-d H:i:s")." $t [$c] $m";
     $name = $this->error_log.'.'.date("Y-W").'.log';
     return file_put_contents($name, date("Y-m-d H:i:s")." $t [$c] $m\n", FILE_APPEND);
