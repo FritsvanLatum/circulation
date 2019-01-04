@@ -96,8 +96,8 @@
           <td>{{ content.author }}</td>
         </tr>
         <tr>
-          <td id="barcode">Barcode</td>
-          <td>{{ content.pieceDesignation }}</td>
+          <td>Barcode</td>
+          <td id="barcode">{{ content.pieceDesignation }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td><td></td>
@@ -115,7 +115,7 @@
         </tr>
         <tr>
           <td>Date of request</td>
-          <td>{{ content.requestDate|split('T')|first }} {{ content.requestDate|split('T')|last|split('.')|first }}</td>
+          <td id="reqDate">{{ content.requestDate|split('T')|first }} {{ content.requestDate|split('T')|last|split('.')|first }}</td>
         </tr>
       </tbody>
     </table>
