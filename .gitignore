@@ -1,2 +1,12 @@
 *.bak
 *.zip
+*.log
+/out.txt
+/eternal_tickets.php
+/pulllist/key.php
+/pulllist/tickets/*/*.html
+/pulllist/tickets/*.json
+/pulllist/tickets/*/*.pdf
+/patron/key_idm.php
+/patron/idcards/*.html
+/patron/idcards/*.pdf
