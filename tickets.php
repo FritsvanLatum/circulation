@@ -6,29 +6,21 @@ $tobeprinted_dir = 'pulllist/tickets/tobeprinted';
 $printed_dir = 'pulllist/tickets/printed';
 
 //$mpdf = new \Mpdf\Mpdf();
-
+function cmp($a,$b) {
+  return strcmp(strtolower($a["patron"].' '.$a['title']), strtolower($b["patron"].' '.$b['title']));
+}
 
 function generateRows($dir,$template_file) {
   $files = scandir($dir);
 
-  //default data
-  $data = array(
-  'date' => 'date',
-  'callNumber' => 'callNumber',
-  'title' => 'title',
-  'barcode' => 'barcode',
-  'patron' => 'patron',
-  'dir' => 'dir',
-  'file' => 'file',
-  'print' => 'print'
-  );
-
+  $rows = array();
   foreach ($files as $file) {
     if(strpos($file,"html")>0){
       //get data
       $doc = new DOMDocument();
       $doc->loadHTMLFile($dir.'/'.$file,LIBXML_NOWARNING | LIBXML_NOERROR);
-      $data['date'] = $doc->getElementById('date')->textContent ;
+      $data = array();
+      $data['date'] = $doc->getElementById('reqDate')->textContent ;
       $data['callNumber'] = $doc->getElementById('callNumber')->textContent ;
       $data['title'] = $doc->getElementById('title')->textContent ;
       $data['barcode'] = $doc->getElementById('barcode')->textContent ;
@@ -36,6 +28,11 @@ function generateRows($dir,$template_file) {
       $data['dir'] = $dir;
       $data['file'] = $file;
       //make row
+      $rows[] = $data;
+    }
+  } 
+  usort($rows,"cmp");
+  foreach ($rows as $row) {   
       $loader = new Twig_Loader_Filesystem(__DIR__);
       $twig = new Twig_Environment($loader, array(
       //specify a cache directory only in a production setting
@@ -43,10 +40,11 @@ function generateRows($dir,$template_file) {
       ));
 
 
-      $row = $twig->render($template_file, $data);
-      echo $row;
-    }
+      $html_row = $twig->render($template_file, $row);
+      echo $html_row;
+  
   }
+
   return true;
 }
 
