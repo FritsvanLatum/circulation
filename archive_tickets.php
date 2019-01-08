@@ -2,18 +2,18 @@
 <?php
 //on windows ZipArchive doesn't like driveletters and backward slashes
 //comment the following 2 lines before pushing to github
-$html_printed_dir = '/xampp/htdocs/oclcAPIs/circulation/pulllist/tickets/printed';
-$html_archive_dir = '/xampp/htdocs/oclcAPIs/circulation/pulllist/tickets/archive';
+//$html_printed_dir = '/xampp/htdocs/oclcAPIs/circulation/pulllist/tickets/printed';
+//$html_archive_dir = '/xampp/htdocs/oclcAPIs/circulation/pulllist/tickets/archive';
 
 //on linux use __DIR__
 //uncomment the following 2 lines before pushing to github
-//$html_printed_dir = __DIR__.'/pulllist/tickets/printed';
-//$html_archive_dir = __DIR__.'/pulllist/tickets/archive';
+$html_printed_dir = __DIR__.'/pulllist/tickets/printed';
+$html_archive_dir = __DIR__.'/pulllist/tickets/archive';
 
 //a zipfile for eacht month: tickets201901.zip, tickets201902.zip,etc.
 $zip_name = $html_archive_dir.'/tickets'.date('Ym').'.zip';
 
-$num_of_days_before_archiving = 7;
+$num_of_days_before_archiving = 2;
 
 $zip = new ZipArchive;
 
