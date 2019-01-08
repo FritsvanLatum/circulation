@@ -18,7 +18,7 @@
     <p>&nbsp;</p>
 
     <h1>PLEASE DO NOT REMOVE THIS FORM FROM THE BOOK !</h1>
-    <table>
+    <table width="100%">
       <tbody>
         <tr>
           <td>Date</td>
@@ -48,8 +48,8 @@
           <td>&nbsp;</td><td></td>
         </tr>
         <tr>
-          <td>Barcode lener:</td>
-          <td>{{ content.patronName }} ( {{ content.lenerbarcode }} )</td>
+          <td width="20%">Barcode lener:</td>
+          <td width="75%" align="right">{{ content.lenerbarcode }}&nbsp; &nbsp;{{ content.patronName }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td><td></td>
@@ -85,7 +85,7 @@
         </tr>
         <tr>
           <td>Year/Vol./No.</td>
-          <td> </td>
+          <td>{{content.holdingInformation.enumeration}} {{ content.holdingInformation.chronology }} </td>
         </tr>
         <tr>
           <td>Title</td>
