@@ -1,0 +1,2 @@
+
+nohup /var/www/html/circulation/eternal_tickets.php >/var/www/html/circulation/nohup.log 2>&1 &
