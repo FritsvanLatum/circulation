@@ -25,6 +25,10 @@
           <td id="date">{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
         </tr>
         <tr>
+          <td>Shelving location</td>
+          <td id="shelf">{{ content.permanentShelvingLocation.element | join(' | ') }}</td>
+        </tr>
+        <tr>
           <td>Call number</td>
           <td id="callNumber">{{ content.callNumber.description }}</td>
         </tr>
@@ -71,13 +75,17 @@
     <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
 
     <h1>STEEKKAART</h1>
-    <table>
+    <table width="100%">
       <thead>
       </thead>
       <tbody>
         <tr>
-          <td>Date</td>
-          <td>{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
+          <td width="20%">Date</td>
+          <td width="75%">{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
+        </tr>
+        <tr>
+          <td>Shelving location</td>
+          <td id="shelf">{{ content.permanentShelvingLocation.element | join(' | ') }}</td>
         </tr>
         <tr>
           <td>Call number</td>
