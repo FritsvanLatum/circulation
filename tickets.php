@@ -21,6 +21,7 @@ function generateRows($dir,$template_file) {
       $doc->loadHTMLFile($dir.'/'.$file,LIBXML_NOWARNING | LIBXML_NOERROR);
       $data = array();
       $data['date'] = $doc->getElementById('reqDate')->textContent ;
+      $data['shelf'] = $doc->getElementById('shelf') ? $doc->getElementById('shelf')->textContent : ' ';
       $data['callNumber'] = $doc->getElementById('callNumber')->textContent ;
       $data['title'] = $doc->getElementById('title')->textContent ;
       $data['barcode'] = $doc->getElementById('barcode')->textContent ;
@@ -92,6 +93,7 @@ function generateRows($dir,$template_file) {
       <div class="divTableHeading">
         <div class="divTableRow">
           <div class="divTableHead">Date</div>
+          <div class="divTableHead">Shelving location</div>
           <div class="divTableHead">Call number</div>
           <div class="divTableHead">Title</div>
           <div class="divTableHead">Barcode</div>
@@ -111,6 +113,7 @@ function generateRows($dir,$template_file) {
       <div class="divTableHeading">
         <div class="divTableRow">
           <div class="divTableHead">Date</div>
+          <div class="divTableHead">Shelving location</div>
           <div class="divTableHead">Call number</div>
           <div class="divTableHead">Title</div>
           <div class="divTableHead">Barcode</div>
