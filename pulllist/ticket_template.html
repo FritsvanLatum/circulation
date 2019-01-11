@@ -12,17 +12,29 @@
       p.small {
         font-size: 50%;
       }
+      table {
+        width: 100%
+      }
+      td {
+        vertical-align: top;
+      }
+      td.w20 {
+        width:20%;
+      }
+      td.w75 {
+        width:75%;
+      }
     </style>
   </head>
   <body>
     <p>&nbsp;</p>
 
     <h1>PLEASE DO NOT REMOVE THIS FORM FROM THE BOOK !</h1>
-    <table width="100%">
+    <table>
       <tbody>
         <tr>
-          <td>Date</td>
-          <td id="date">{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
+          <td class="w20">Date</td>
+          <td id="date" class="w75">{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
         </tr>
         <tr>
           <td>Shelving location</td>
@@ -48,24 +60,28 @@
           <td>Author</td>
           <td id="author">{{ content.bibliographicItem.author }}</td>
         </tr>
+        <!--        <tr>
+        <td>Barcode item:</td>
+        <td>{{ content.pieceDesignation }}</td>
+        </tr> -->
         <tr>
           <td>Barcode item:</td>
-          <td>{{ content.pieceDesignation }}</td>
+          <td><barcode code="{{ content.pieceDesignation }}" type="C39" /><br/> {{ content.pieceDesignation }} </td>
         </tr>
         <tr>
           <td>&nbsp;</td><td></td>
         </tr>
         <tr>
-          <td width="20%">Barcode lener:</td>
-          <td width="75%" align="right">{{ content.lenerbarcode }}&nbsp; &nbsp;{{ content.patronName }}</td>
+          <td>Barcode lener:</td>
+          <td align="right">{{ content.lenerbarcode }}&nbsp; &nbsp;{{ content.patronName }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td><td></td>
         </tr>
-        <tr>
+<!--        <tr>
           <td>Date of request</td>
           <td>{{ content.requestDate|split('T')|first }} {{ content.requestDate|split('T')|last|split('.')|first }}</td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
     <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
@@ -79,13 +95,13 @@
     <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
 
     <h1>STEEKKAART</h1>
-    <table width="100%">
+    <table>
       <thead>
       </thead>
       <tbody>
         <tr>
-          <td width="20%">Date</td>
-          <td width="75%">{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
+          <td class="w20">Date</td>
+          <td class="w75">{{ updated|split('T')|first }} {{ updated|split('T')|last|split('.')|first }}</td>
         </tr>
         <tr>
           <td>Shelving location</td>
@@ -94,6 +110,10 @@
         <tr>
           <td>Call number</td>
           <td>{{ content.callNumber.description }}</td>
+        </tr>
+        <tr>
+          <td>Note</td>
+          <td>{{ content.freeText }}</td>
         </tr>
         <tr>
           <td>Year/Vol./No.</td>
@@ -119,16 +139,12 @@
           <td id="patron">{{ content.patronName }} ( {{ content.lenerbarcode }} )</td>
         </tr>
         <tr>
-          <td>Note</td>
-          <td>{{ content.freeText }}</td>
-        </tr>
-        <tr>
           <td>&nbsp;</td><td></td>
         </tr>
-        <tr>
+<!--        <tr>
           <td>Date of request</td>
           <td id="reqDate">{{ content.requestDate|split('T')|first }} {{ content.requestDate|split('T')|last|split('.')|first }}</td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
     <p class="small">-- Printed from WMS --</p>

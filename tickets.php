@@ -20,7 +20,7 @@ function generateRows($dir,$template_file) {
       $doc = new DOMDocument();
       $doc->loadHTMLFile($dir.'/'.$file,LIBXML_NOWARNING | LIBXML_NOERROR);
       $data = array();
-      $data['date'] = $doc->getElementById('reqDate')->textContent ;
+      $data['date'] = $doc->getElementById('date')->textContent ;
       $data['shelf'] = $doc->getElementById('shelf') ? $doc->getElementById('shelf')->textContent : ' ';
       $data['callNumber'] = $doc->getElementById('callNumber')->textContent ;
       $data['title'] = $doc->getElementById('title')->textContent ;
