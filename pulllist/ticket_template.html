@@ -53,6 +53,10 @@
           <td id="issue">{{content.holdingInformation.enumeration}} {{ content.holdingInformation.chronology }} </td>
         </tr>
         <tr>
+          <td>Copy no.</td>
+          <td>{{content.copyNumber | join(', ')}}</td>
+        </tr>
+        <tr>
           <td>Title</td>
           <td id="title">{{ title }}</td>
         </tr>
@@ -84,7 +88,7 @@
         </tr> -->
       </tbody>
     </table>
-    <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+    <p>&nbsp;</p><p>&nbsp;</p>
 
 
 
@@ -92,7 +96,7 @@
 
 
 
-    <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+    <p>&nbsp;</p><p>&nbsp;</p>
 
     <h1>STEEKKAART</h1>
     <table>
@@ -118,6 +122,10 @@
         <tr>
           <td>Year/Vol./No.</td>
           <td>{{content.holdingInformation.enumeration}} {{ content.holdingInformation.chronology }} </td>
+        </tr>
+        <tr>
+          <td>Copy no.</td>
+          <td>{{content.copyNumber | join(', ')}}</td>
         </tr>
         <tr>
           <td>Title</td>

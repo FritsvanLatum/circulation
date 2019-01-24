@@ -8,7 +8,6 @@ require_once './OCLC/User.php';
 */
 class Patron {
 
-  public $errors = [];
   private $error_log = __DIR__.'/../patron_error';
   private $logging = 'all'; //'none','errors','all' (not yet implemented
 
@@ -129,7 +128,7 @@ class Patron {
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, $options);
       }
       else {
-        $wskeyObj = new WSKey($config['wskey'], $config['secret'],null);
+        $wskeyObj = new WSKey($this->wskey, $this->secret, null);
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, null);
       }
       //check??

@@ -2,6 +2,7 @@
 require_once './OCLC/Auth/WSKey.php';
 require_once './OCLC/User.php';
 require_once __DIR__.'/../patron/patron.php';
+require_once __DIR__.'/../availability/availability.php';
 require_once __DIR__.'/../vendor/autoload.php';
 
 /**
@@ -147,7 +148,7 @@ class Pulllist {
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, $options);
       }
       else {
-        $wskeyObj = new WSKey($config['wskey'], $config['secret'],null);
+        $wskeyObj = new WSKey($this->wskey, $this->secret,null);
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, null);
       }
       $authorizationHeader = 'Authorization: '.$authorizationHeader;
@@ -206,18 +207,12 @@ class Pulllist {
           //store result in this object as an array
           $this->list = $list;
 
-          //save but not after renaming the previous one
-          if (file_exists($this->pulllist_filename)) {
-            $renamed = rename($this->pulllist_filename,$this->previous_pulllist_filename);
-            if (!$renamed) $this->log_entry('Warning','get_pulllist',"Existing pullist file could not be renamed.");
-          }
-          $written = file_put_contents($this->pulllist_filename,json_encode($this->list, JSON_PRETTY_PRINT));
-          if (!$written) $this->log_entry('Warning','get_pulllist',"New pullist file could not be saved.");
-
           //number of items
           if (array_key_exists('entries',$this->list)) {
             $this->no_of_items = count($this->list['entries']);
           }
+
+          $this->savePullist();
           return TRUE;
         }
         else {
@@ -228,6 +223,16 @@ class Pulllist {
     }
   }
 
+  private function savePullist(){
+    //save but not after renaming the previous one
+    if (file_exists($this->pulllist_filename)) {
+      $renamed = rename($this->pulllist_filename,$this->previous_pulllist_filename);
+      if (!$renamed) $this->log_entry('Warning','get_pulllist',"Existing pullist file could not be renamed.");
+    }
+    $written = file_put_contents($this->pulllist_filename,json_encode($this->list, JSON_PRETTY_PRINT));
+    if (!$written) $this->log_entry('Warning','get_pulllist',"New pullist file could not be saved.");
+  }
+  
   public function get_item($i) {
     $result = null;
     if ($this->list && array_key_exists('entries',$this->list) && ($i < $this->no_of_items)) {
@@ -236,14 +241,17 @@ class Pulllist {
     return $result;
   }
 
+/*
+ Uses Twig to generate HTML
+ Uses Mpdf to generate PDF from HTML to send to a printer
+ Uses Patron class to look up a patron's barcode
+ Uses Availability class to look up more LHR info
+ */
   public function items2html() {
-    //use Twig to make a html file for each entry
-
     if ($this->list && array_key_exists('entries',$this->list)) {
       $tel = 0;
       foreach ($this->list['entries'] as $entry) {
         $tel++;
-
 
         //try to get the patron barcode
         $patronIdentifier = $entry['content']['patronIdentifier']['ppid'];
@@ -254,9 +262,14 @@ class Pulllist {
         if (strlen($barcode) == 0) {
           $this->log_entry('Warning','items2html',"Entry $tel: No barcode returned from ppid $patronIdentifier");
         }
-
         $entry['content']['lenerbarcode']=$barcode;
 
+        //try to get Availability info
+        $ocn = $entry['content']['bibliographicItem']['oclcNumber'];
+        $av = new Availability($this->wskey,$this->secret);
+        $entry['content']['copyNumber'] = $av->get_element_value($ocn,'copyNumber');
+        //echo "<pre>$ocn: ".json_encode($entry['content']['copyNumber'])."</pre><br/>";
+        //generate HTML and PDF and store to files
         try {
           $html_filename = $this->tobeprinted_dir.'/'.$entry['content']['requestId'].'.html';
           $printed_filename = $this->printed_dir.'/'.$entry['content']['requestId'].'.html';
