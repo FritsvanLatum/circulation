@@ -13,7 +13,7 @@ $html_archive_dir = __DIR__.'/pulllist/tickets/archive';
 //a zipfile for eacht month: tickets201901.zip, tickets201902.zip,etc.
 $zip_name = $html_archive_dir.'/tickets'.date('Ym').'.zip';
 
-$num_of_days_before_archiving = 2;
+$num_of_days_before_archiving = 1;
 
 $zip = new ZipArchive;
 
@@ -35,21 +35,22 @@ if ($opened || $created) {
     //only html files
     if(strpos($html_file,"html")>0){
       $html_file = $html_printed_dir.'/'.$html_file;
-
       $dt_this_date = new DateTime();
       $dt_this_date->setTimeStamp(time());
       $dt_file_date = new DateTime();
       $dt_file_date->setTimeStamp(filectime($html_file));
 
       $difference = intval($dt_this_date->diff($dt_file_date)->format("%a"));
-
       /*echo "Now: ".$dt_this_date->format('Y-m-d')."<br/>\n";
       echo "File: ".$dt_file_date->format('Y-m-d')."<br/>\n";
       echo "Diff: ".$difference."<br/>\n";*/
 
+//echo $difference."\n";
+
       if ($difference > $num_of_days_before_archiving) {
         $tel++;
         $zipped = $zip->addFile($html_file,basename($html_file));
+//echo $html_file."\n";
         $deleted = unlink($html_file);
       }
     }
