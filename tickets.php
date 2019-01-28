@@ -4,15 +4,16 @@ require_once './vendor/autoload.php';
 
 $tobeprinted_dir = 'pulllist/tickets/tobeprinted';
 $printed_dir = 'pulllist/tickets/printed';
-
 //$mpdf = new \Mpdf\Mpdf();
 function cmp($a,$b) {
-  return strcmp(strtolower($a["patron"].' '.$a['title']), strtolower($b["patron"].' '.$b['title']));
+//  het is makkelijker als je wilt zoeken naar recent NIET afgedrukte bonnen als je op datum sorteert. [aad]
+//  return strcmp(strtolower($a["patron"].' '.$a['title']), strtolower($b["patron"].' '.$b['title']));
+  return strcmp(strtolower($a["date"]), strtolower($b["date"]));
 }
 
 function generateRows($dir,$template_file) {
   $files = scandir($dir);
-
+  $aantal=0;
   $rows = array();
   foreach ($files as $file) {
     if(strpos($file,"html")>0){
@@ -34,6 +35,8 @@ function generateRows($dir,$template_file) {
   } 
   usort($rows,"cmp");
   foreach ($rows as $row) {   
+      $aantal++;
+      $row = array_merge(array('no'=>$aantal),$row);
       $loader = new Twig_Loader_Filesystem(__DIR__);
       $twig = new Twig_Environment($loader, array(
       //specify a cache directory only in a production setting
@@ -48,7 +51,6 @@ function generateRows($dir,$template_file) {
 
   return true;
 }
-
 ?>
 
 <html>
@@ -92,6 +94,7 @@ function generateRows($dir,$template_file) {
     <div class="divTable paleBlueRows">
       <div class="divTableHeading">
         <div class="divTableRow">
+          <div class="divTableHead">#</div>
           <div class="divTableHead">Date</div>
           <div class="divTableHead">Shelving location</div>
           <div class="divTableHead">Call number</div>
@@ -112,6 +115,7 @@ function generateRows($dir,$template_file) {
     <div class="divTable paleBlueRows">
       <div class="divTableHeading">
         <div class="divTableRow">
+          <div class="divTableHead">#</div>
           <div class="divTableHead">Date</div>
           <div class="divTableHead">Shelving location</div>
           <div class="divTableHead">Call number</div>
