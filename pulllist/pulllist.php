@@ -278,7 +278,7 @@ class Pulllist {
           $html = '';
           if (file_exists($printed_filename)) {
             //already printed: do nothing
-            $this->log_entry('Warning','items2html',"file already printed: $printed_filename");
+            $this->log_entry('Warning','items2html',"file already printed: $printed_filename\n\t".$entry['content']['callNumber']['description']." -- ".$entry['content']['pieceDesignation']." -- ".$entry['content']['patronName']);
           }
           else {
             if (file_exists($html_filename)) {
