@@ -8,7 +8,7 @@ $printed_dir = 'pulllist/tickets/printed';
 function cmp($a,$b) {
 //  het is makkelijker als je wilt zoeken naar recent NIET afgedrukte bonnen als je op datum sorteert. [aad]
 //  return strcmp(strtolower($a["patron"].' '.$a['title']), strtolower($b["patron"].' '.$b['title']));
-  return strcmp(strtolower($a["date"]), strtolower($b["date"]));
+  return strcmp(strtolower($b["date"]), strtolower($a["date"]));
 }
 
 function generateRows($dir,$template_file) {
