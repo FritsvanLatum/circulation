@@ -2,7 +2,7 @@
 require_once './OCLC/Auth/WSKey.php';
 require_once './OCLC/User.php';
 require_once __DIR__.'/../patron/patron.php';
-require_once __DIR__.'/../availability/availability.php';
+//require_once __DIR__.'/../availability/availability.php';
 require_once __DIR__.'/../vendor/autoload.php';
 
 /**
@@ -263,12 +263,15 @@ class Pulllist {
           $this->log_entry('Warning','items2html',"Entry $tel: No barcode returned from ppid $patronIdentifier");
         }
         $entry['content']['lenerbarcode']=$barcode;
-
+        
+        /*
         //try to get Availability info
         $ocn = $entry['content']['bibliographicItem']['oclcNumber'];
         $av = new Availability($this->wskey,$this->secret);
         $entry['content']['copyNumber'] = $av->get_element_value($ocn,'copyNumber');
         //echo "<pre>$ocn: ".json_encode($entry['content']['copyNumber'])."</pre><br/>";
+        */
+        
         //generate HTML and PDF and store to files
         try {
           $html_filename = $this->tobeprinted_dir.'/'.$entry['content']['requestId'].'.html';

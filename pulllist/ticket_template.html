@@ -53,8 +53,8 @@
           <td id="issue">{{content.holdingInformation.enumeration}} {{ content.holdingInformation.chronology }} </td>
         </tr>
         <tr>
-          <td>Copy no.</td>
-          <td>{{content.copyNumber | join(', ')}}</td>
+          <td>&nbsp;</td>
+          <td>{{content.holdingInformation.description}}</td>
         </tr>
         <tr>
           <td>Title</td>
@@ -64,14 +64,14 @@
           <td>Author</td>
           <td id="author">{{ content.bibliographicItem.author }}</td>
         </tr>
-        <!--        <tr>
-        <td>Barcode item:</td>
-        <td>{{ content.pieceDesignation }}</td>
-        </tr> -->
         <tr>
           <td>Barcode item:</td>
-          <td><barcode code="{{ content.pieceDesignation }}" type="C39" /><br/> {{ content.pieceDesignation }} </td>
+          <td>{{ content.pieceDesignation }}</td>
         </tr>
+        <!--<tr>
+          <td>Barcode item:</td>
+          <td><barcode code="{{ content.pieceDesignation }}" type="C39" /><br/> {{ content.pieceDesignation }} </td>
+        </tr>-->
         <tr>
           <td>&nbsp;</td><td></td>
         </tr>
@@ -124,8 +124,8 @@
           <td>{{content.holdingInformation.enumeration}} {{ content.holdingInformation.chronology }} </td>
         </tr>
         <tr>
-          <td>Copy no.</td>
-          <td>{{content.copyNumber | join(', ')}}</td>
+          <td>&nbsp;</td>
+          <td>{{content.holdingInformation.description}}</td>
         </tr>
         <tr>
           <td>Title</td>
@@ -133,10 +133,10 @@
         </tr>
         <tr>
           <td>Author</td>
-          <td>{{ content.author }}</td>
+          <td>{{ content.bibliographicItem.author }}</td>
         </tr>
         <tr>
-          <td>Barcode</td>
+          <td>Barcode item:</td>
           <td id="barcode">{{ content.pieceDesignation }}</td>
         </tr>
         <tr>
