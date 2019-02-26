@@ -2,33 +2,35 @@
 require_once './OCLC/Auth/WSKey.php';
 require_once './OCLC/User.php';
 require_once __DIR__.'/../patron/patron.php';
-//require_once __DIR__.'/../availability/availability.php';
 require_once __DIR__.'/../vendor/autoload.php';
 
 /**
 * A class that represents a pulllist
 */
 class Pulllist {
-
+  //error handling: TODO move logfiles to somewhere else
   private $errors = [];
   private $error_log = __DIR__.'/../pulllist_error';
   private $logging = 'all'; //'none','errors','all' (not yet implemented
 
-  //must be provided as parameters in $pulllist = new Pulllist($wskey,$secret,$ppid), see __construct
+  //must be provided as parameters in new Pulllist($wskey,$secret,$ppid), see __construct
   private $wskey = null;
   private $secret = null;
   private $ppid = null;
 
+  //must be provided as parameters in new Patron($this->idm_wskey,$this->idm_secret,$this->idm_ppid), see __construct
   private $idm_wskey = null;
   private $idm_secret = null;
   private $idm_ppid = null;
 
+  //PPL info:
   private $institution = "57439";
   private $defaultBranch = "262638";
 
   //$ppid_namespace is extended in __construct
   private $ppid_namespace = "urn:oclc:platform:";
 
+  //OCLC key stuff
   private $auth_url = 'http://www.worldcat.org/wskey/v2/hmac/v1';
   private $auth_method = 'GET';
   private $auth_headers = ['Accept: application/json'];
@@ -40,6 +42,7 @@ class Pulllist {
   public $list = null;
   public $no_of_items = null;
 
+  //directory and file names
   private $pullist_dir = null;
   private $tickets_dir = 'tickets';
   private $tobeprinted_dir = 'tobeprinted';
@@ -48,9 +51,10 @@ class Pulllist {
   private $pulllist_filename = 'actual_pulllist.json';
   private $previous_pulllist_filename = 'previous_pulllist.json';
 
+  //will be initialized as an object of class Patron
   private $patron = null;
 
-  //twig
+  //twig stuff
   private $twig = null;
   private $template = 'ticket_template.html';
 
@@ -88,7 +92,7 @@ class Pulllist {
   }
 
   public function __toString(){
-    //create an array and return json_encoded string
+    //create an array with all the class members and its values ...
     $json = [
     'wskey' =>$this->wskey,
     'secret' => $this->secret,
@@ -119,6 +123,8 @@ class Pulllist {
     'twig' => ($this->twig === null) ? null : 'is initiated',
     'template' => $this->template,
     ];
+    
+    //... and return as a json_encoded string for printing
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
@@ -245,7 +251,6 @@ class Pulllist {
  Uses Twig to generate HTML
  Uses Mpdf to generate PDF from HTML to send to a printer
  Uses Patron class to look up a patron's barcode
- Uses Availability class to look up more LHR info
  */
   public function items2html() {
     if ($this->list && array_key_exists('entries',$this->list)) {
@@ -263,14 +268,6 @@ class Pulllist {
           $this->log_entry('Warning','items2html',"Entry $tel: No barcode returned from ppid $patronIdentifier");
         }
         $entry['content']['lenerbarcode']=$barcode;
-        
-        /*
-        //try to get Availability info
-        $ocn = $entry['content']['bibliographicItem']['oclcNumber'];
-        $av = new Availability($this->wskey,$this->secret);
-        $entry['content']['copyNumber'] = $av->get_element_value($ocn,'copyNumber');
-        //echo "<pre>$ocn: ".json_encode($entry['content']['copyNumber'])."</pre><br/>";
-        */
         
         //generate HTML and PDF and store to files
         try {
