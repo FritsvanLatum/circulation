@@ -5,7 +5,8 @@
 *.tgz
 /out.txt
 /eternal_tickets.php
-/pulllist/key.php
+key.php
+key_idm.php
 /pulllist/tickets/*/*.html
 /pulllist/tickets/*.json
 /pulllist/tickets/*/*.pdf
