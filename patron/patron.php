@@ -77,7 +77,7 @@ class Patron {
   public function __toString(){
     //create an array and return json_encoded string
     $json = [
-    'errors' => $this->errors,
+    /*'errors' => $this->errors,*/
 
     'institution' => $this->institution,
     'defaultBranch' => $this->defaultBranch,

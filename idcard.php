@@ -3,7 +3,7 @@ require_once './patron/key_idm.php';
 require_once './patron/patron.php';
 require_once './vendor/autoload.php';
 
-$debug = FALSE;
+$debug = TRUE;
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
 $this_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http").
